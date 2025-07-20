@@ -8,6 +8,7 @@ public class EcomBackendApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(EcomBackendApplication.class, args);
+        System.out.println("Started");
     }
 
 }
