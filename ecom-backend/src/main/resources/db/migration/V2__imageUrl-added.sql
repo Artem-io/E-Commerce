@@ -1,0 +1,1 @@
+ALTER TABLE products add column image_url varchar(255) NULL;

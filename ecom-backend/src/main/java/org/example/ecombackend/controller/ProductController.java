@@ -1,4 +1,5 @@
 package org.example.ecombackend.controller;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.ecombackend.model.Product;
 import org.example.ecombackend.service.ProductService;
@@ -8,6 +9,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,9 +25,10 @@ public class ProductController
         return ResponseEntity.ok(productService.getAllProducts(pageable));
     }
 
-    @PostMapping
+    @PostMapping(consumes = "multipart/form-data")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        return ResponseEntity.ok(productService.addProduct(product));
+    public ResponseEntity<Product> addProduct(@Valid @ModelAttribute Product product,
+                                              @RequestParam(value = "file", required = true) MultipartFile file) throws IOException {
+        return ResponseEntity.ok(productService.addProduct(product, file));
     }
 }

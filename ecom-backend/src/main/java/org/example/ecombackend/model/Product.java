@@ -20,16 +20,20 @@ public class Product
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank @Size(max = 40)
+    @NotBlank(message = "Name is required")
+    @Size(max = 40, message = "Length cannot be greater than 40")
     String name;
 
-    @NotBlank @Size(max = 300)
+    @NotBlank(message = "Description is required")
+    @Size(max = 300, message = "Length cannot be greater than 300")
     String description;
 
-    @NotNull
+    @NotNull(message = "Price is required")
     @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0")
     BigDecimal price;
 
-    @NotNull
+    @NotNull(message = "Availability status is required")
     Boolean isAvailable;
+
+    private String imageUrl;
 }
