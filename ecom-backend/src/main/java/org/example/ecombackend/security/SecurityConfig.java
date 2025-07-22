@@ -31,14 +31,11 @@ import java.util.List;
 public class SecurityConfig
 {
     private final UserDetailsServiceImpl userDetailsService;
+    private final JwtFilter jwtFilter;
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        // In this method we specify how exactly we want to authenticate users
-        // We specify db, table name etc.
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
-        // Method above only accepts UserDetailsService which is a default class
-        // That's why we need to implement it ourselves to specify how exactly to check users
         provider.setPasswordEncoder(new BCryptPasswordEncoder());
 
         return provider;
@@ -53,10 +50,10 @@ public class SecurityConfig
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+//                .httpBasic(Customizer.withDefaults())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-        //TODO: add jwt filter
         return http.build();
     }
 
