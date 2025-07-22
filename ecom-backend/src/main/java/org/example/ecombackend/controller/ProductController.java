@@ -31,4 +31,11 @@ public class ProductController
                                               @RequestParam(value = "file", required = true) MultipartFile file) throws IOException {
         return ResponseEntity.ok(productService.addProduct(product, file));
     }
+
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
+    }
 }

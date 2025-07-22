@@ -35,4 +35,11 @@ public class ProductService
             }
             return productRepo.save(product);
     }
+
+    public void deleteProduct(Long id) {
+        Product product = productRepo.findById(id).orElseThrow();
+        String fileName = product.getId() + product.getName();
+        s3Service.deleteObject(fileName);
+        productRepo.deleteById(id);
+    }
 }
