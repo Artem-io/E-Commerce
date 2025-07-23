@@ -1,27 +1,19 @@
-import { Button, Group, Anchor } from "@mantine/core";
+import { Center, Stack, Title, Text } from "@mantine/core";
+import type React from "react";
 import FeaturedCarousel from "./FeaturedCarousel";
-import FeaturedProducts from "./FeaturedProducts";
+import ProductsGrid from "./ProductsGrid";
 
 const HomePage = ({products}) => {
   return (
     <>
-    <Group h='70px' px='50px' bg='#141b29' justify="space-between">
-
-      
-
-      <Group justify="space-between">
-        <Anchor href="" underline="never"> Home </Anchor>
-        <Anchor underline="never" >Products</Anchor>
-        <Anchor underline="never" >About</Anchor>
-        <Anchor underline="never" >Contact</Anchor>
-        <Button>Cart Icon</Button>
-        <Button>Login</Button>
-      </Group>
-
-    </Group>
-
     <FeaturedCarousel />
-    <FeaturedProducts products={products} />
+
+    <Stack align="center" justify="center">
+        <Title>Products</Title>
+        <Text>Discover our handpicked selection of top-rated items for you</Text>
+      </Stack>
+
+      <ProductsGrid products={products} nb={4} />
     </>
   );
 };

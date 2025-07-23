@@ -1,18 +1,13 @@
 import { SimpleGrid, Title, Text, Center, Stack, Button, Card, Group, Image } from "@mantine/core";
 import React from "react";
 
-const FeaturedProducts = ({ products }) => {
+const ProductsGrid = ({ products, nb }) => {
   return (
     <>
-      <Stack align="center" justify="center">
-        <Title>Products</Title>
-        <Text>Discover our handpicked selection of top-rated items for you</Text>
-      </Stack>
-
       <Center>
         <SimpleGrid spacing={100} cols={{ base: 2, lg: 4 }}>
           {products ? (
-            products.slice(0, 4).map((product) => (
+            products.slice(-nb).map((product) => (
               <Card h='320px' w='250px' shadow="sm" radius="md" withBorder key={product.id}>
 
                 <Card.Section>
@@ -38,4 +33,4 @@ const FeaturedProducts = ({ products }) => {
   );
 };
 
-export default FeaturedProducts;
+export default ProductsGrid;
