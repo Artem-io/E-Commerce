@@ -1,5 +1,4 @@
-import { SimpleGrid, Title, Text, Center, Stack, Button, Card, Group, Image } from "@mantine/core";
-import React from "react";
+import { SimpleGrid, Text, Center, Button, Card, Group, Image } from "@mantine/core";
 
 const ProductsGrid = ({ products, nb }) => {
   return (
@@ -19,7 +18,7 @@ const ProductsGrid = ({ products, nb }) => {
 
                 <Group justify="space-between">
                   <Text>${product.price}</Text>
-                  <Button>Add to Cart</Button>
+                  <Button disabled={!product.isAvailable}>Add to Cart</Button>
                 </Group>
 
               </Card>

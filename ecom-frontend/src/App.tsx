@@ -5,6 +5,7 @@ import { getAllProducts } from "./api/ProductsService";
 import Navbar from "./Components/Navbar";
 import ProductsPage from "./Components/ProductsPage";
 import Authentication from "./Components/Authentication";
+import { AuthProvider } from "./Components/AuthContext";
 
 function App() {
   const [products, setProducts] = useState(null);
@@ -12,24 +13,23 @@ function App() {
     try {
       const response = await getAllProducts();
       setProducts(response.data.content);
-    } catch (err) {
-      console.log(err);
-    }
+    } 
+    catch (err) {console.log(err)}
   };
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  useEffect(() => {fetchProducts()}, []);
 
   return (
     <>
+    <AuthProvider>
       <BrowserRouter>
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage products={products} />} />
-          <Route path="/products" element={<ProductsPage products={products} />} />
+          <Route path="/products" element={<ProductsPage />} />
           <Route path="/auth" element={<Authentication />} />
         </Routes>
       </BrowserRouter>
+      </AuthProvider>
     </>
   );
 }

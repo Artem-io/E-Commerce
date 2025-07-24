@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -18,9 +19,12 @@ public class ProductService
     private final ProductRepository productRepo;
     private final S3Service s3Service;
 
-    public Page<Product> getAllProducts(Pageable pageable) {
-        return productRepo.findAll(pageable).map(product ->
-        {
+    public Page<Product> getAllProducts(String name, Pageable pageable) {
+        Page<Product> products = (name == null || name.trim().isEmpty())
+                ? productRepo.findAll(pageable)
+                : productRepo.findByNameContainingIgnoreCase(name, pageable);
+
+        return products.map(product -> {
             String fileName = product.getId() + product.getName();
             product.setImageUrl(s3Service.getPresignedUrl(fileName));
             return product;
