@@ -1,8 +1,11 @@
 package org.example.ecombackend.controller;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.ecombackend.model.User;
 import org.example.ecombackend.security.JwtUtils;
 import org.example.ecombackend.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,11 +26,19 @@ public class AuthController { //TODO: refresh token
     public User register(@RequestBody User user) {return userService.registerUser(user);}
 
     @PostMapping("login")
-    public String login(@RequestBody User user) {
+    public ResponseEntity<?> login(@RequestBody User user, HttpServletResponse response) {
         Authentication authentication = authenticationManager.authenticate
                 (new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-
         user = (User) authentication.getPrincipal();
-        return authentication.isAuthenticated()? jwtUtils.generateToken(user) : "Failed";
+
+        if (!authentication.isAuthenticated()) return ResponseEntity.status(401).body("Invalid credentials");
+
+        Cookie cookie = new Cookie("jwt", jwtUtils.generateToken(user));
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 12);
+        cookie.setAttribute("SameSite", "Strict");
+        response.addCookie(cookie);
+        return ResponseEntity.ok("Login successful");
     }
 }

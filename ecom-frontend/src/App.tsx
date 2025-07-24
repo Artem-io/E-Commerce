@@ -1,11 +1,10 @@
-import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./Components/HomePage";
 import { useEffect, useState } from "react";
 import { getAllProducts } from "./api/ProductsService";
 import Navbar from "./Components/Navbar";
 import ProductsPage from "./Components/ProductsPage";
 import Authentication from "./Components/Authentication";
-import { AuthProvider } from "./Components/AuthContext";
 
 function App() {
   const [products, setProducts] = useState(null);
@@ -20,7 +19,6 @@ function App() {
 
   return (
     <>
-    <AuthProvider>
       <BrowserRouter>
         <Navbar />
         <Routes>
@@ -29,7 +27,6 @@ function App() {
           <Route path="/auth" element={<Authentication />} />
         </Routes>
       </BrowserRouter>
-      </AuthProvider>
     </>
   );
 }

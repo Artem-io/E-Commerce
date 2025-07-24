@@ -13,22 +13,28 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { upperFirst, useToggle } from '@mantine/hooks';
+import { login } from '../api/ProductsService';
 
 const Authentication = () => {
   const [type, toggle] = useToggle(['login', 'register']);
   const form = useForm({
     initialValues: {
-      email: '',
-      name: '',
+      username: '',
       password: '',
       terms: false,
     },
 
     validate: {
-      email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
-      password: (val) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
+      password: (val) => (val.length <= 1 ? 'Password should include at least 6 characters' : null),
     },
   });
+
+  const attemptLogin = async () => {
+      try {
+        login(form.values);
+      } 
+      catch (err) {console.error("Error during login:", err)}
+    };
 
   return (
     <Center h={600}>
@@ -42,26 +48,13 @@ const Authentication = () => {
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-      <form onSubmit={form.onSubmit(() => {})}>
+      <form onSubmit={form.onSubmit(() => {attemptLogin()})}>
         <Stack>
-          {type === 'register' && (
-            
-            <TextInput
-            required
-            label="Email"
-            placeholder="hello@mantine.dev"
-            value={form.values.email}
-            onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
-            error={form.errors.email && 'Invalid email'}
-            radius="md"
-          />
-          )}
 
           <TextInput
               label="Username"
               placeholder="Your username"
-              value={form.values.name}
-              onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
+              {...form.getInputProps('username')}
               radius="md"
             />
 
@@ -69,14 +62,14 @@ const Authentication = () => {
             required
             label="Password"
             placeholder="Your password"
-            value={form.values.password}
-            onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
+            {...form.getInputProps('password')}
             error={form.errors.password && 'Password should include at least 6 characters'}
             radius="md"
           />
 
           {type === 'register' && (
             <Checkbox
+            required
               label="I accept terms and conditions"
               checked={form.values.terms}
               onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)}

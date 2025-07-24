@@ -3,9 +3,9 @@ import axios from "axios";
 const AUTH_URL = "http://localhost:8080/auth"
 const PRODUCTS_URL = "http://localhost:8080/products"
 
-// export async function login(credentials) {
-//   return await axios.post(`${AUTH_URL}/login`, credentials);
-// }
+export async function login(credentials) {  
+  await axios.post(`${AUTH_URL}/login`, credentials);
+}
 
 export async function getAllProducts(
   searchParam: string='',
@@ -13,7 +13,9 @@ export async function getAllProducts(
   size: number=15, 
   sortBy: string='name', 
   order: string='asc') {
-  return await axios.get(`${PRODUCTS_URL}?name=${searchParam}&page=${page}&size=${size}&sort=${sortBy},${order}`);
+  return await axios.get(`${PRODUCTS_URL}?name=${searchParam}&page=${page}&size=${size}&sort=${sortBy},${order}`, 
+    {withCredentials: true}
+  );
 }
 
 // export async function addProduct(jwt, assignment) {
