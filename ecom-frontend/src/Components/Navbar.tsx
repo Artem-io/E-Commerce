@@ -1,26 +1,50 @@
-import { Button, Group, Anchor, Text } from "@mantine/core";
+import { Button, Group, Anchor, Text, Burger, Drawer, Stack } from "@mantine/core";
 import { FaShop } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
 import { FiLogIn } from "react-icons/fi";
-
+import { useDisclosure } from '@mantine/hooks';
+import { useAuth } from "./AuthContext";
 
 const Navbar = () => {
-  return (
-    <Group h='70px' px='50px' bg='#141b29' justify="space-between">
+  const [opened, { toggle, close }] = useDisclosure(false);
+  const { isAuth } = useAuth();
 
-      <Group>
+  return (
+    <Group h='70px' px={{ base: '20px', sm: '30px', md: '50px' }} bg='#141b29' justify="space-between">
+
+      <Group visibleFrom="xs">
       <FaShop size={40} color="white" />
-      <Text  c="white">E-Shop</Text>
+      <Text c="white">E-Shop</Text>
       </Group>
 
-      <Group justify="space-between">
+      <Button onClick={()=>{console.log(document.cookie)}}>Get Cookies</Button>
+
+      <Group visibleFrom="xs" justify="space-between">
+        <Anchor href="/" underline="never"> Home </Anchor>
+        <Anchor underline="never" href="/products" >Products</Anchor>
+        <Anchor underline="never" >About</Anchor>
+        <Anchor underline="never" >Contact</Anchor>
+        <FaShoppingCart color="white" size={25} />
+        
+        {isAuth? <Button>Welcome</Button> :
+         <Button component="a" href="/auth" leftSection={<FiLogIn size={20} />}> Login </Button>
+        }
+        
+      </Group>
+
+
+    <Burger opened={opened} onClick={toggle} aria-label="Toggle navigation" color="white" size="md" hiddenFrom="xs" /> 
+
+    <Drawer size='xs' opened={opened} onClose={close} overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}>
+      <Stack justify="space-between">
         <Anchor href="/" underline="never"> Home </Anchor>
         <Anchor underline="never" href="/products" >Products</Anchor>
         <Anchor underline="never" >About</Anchor>
         <Anchor underline="never" >Contact</Anchor>
         <FaShoppingCart color="white" size={25} />
         <Button component="a" href="/auth" leftSection={<FiLogIn size={20} />}> Login </Button>
-      </Group>
+      </Stack>
+    </Drawer>
 
     </Group>
   )

@@ -4,6 +4,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import org.example.ecombackend.model.User;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,6 +48,14 @@ public class JwtUtils
                 .setIssuedAt(curTime)
                 .setExpiration(expTime)
                 .signWith(getKey(), SignatureAlgorithm.HS256).compact();
+    }
+
+    public Cookie getJwtCookie(User user) {
+        Cookie cookie = new Cookie("jwt", generateToken(user));
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 12);
+        cookie.setAttribute("SameSite", "Strict");
+        return cookie;
     }
 
     private Claims extractAllClaims(String token) {

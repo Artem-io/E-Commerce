@@ -5,6 +5,7 @@ import { getAllProducts } from "./api/ProductsService";
 import Navbar from "./Components/Navbar";
 import ProductsPage from "./Components/ProductsPage";
 import Authentication from "./Components/Authentication";
+import { AuthProvider } from "./Components/AuthContext";
 
 function App() {
   const [products, setProducts] = useState(null);
@@ -20,12 +21,14 @@ function App() {
   return (
     <>
       <BrowserRouter>
+      <AuthProvider>
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage products={products} />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/auth" element={<Authentication />} />
         </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </>
   );

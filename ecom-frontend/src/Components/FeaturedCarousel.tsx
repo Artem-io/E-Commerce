@@ -1,24 +1,29 @@
 import { Carousel } from "@mantine/carousel";
 import { Image } from "@mantine/core";
+import { useRef } from "react";
+import Autoplay from 'embla-carousel-autoplay';
 
 const Featured = () => {
+  const autoplay = useRef(Autoplay({ delay: 5000 }));
   return (
     <Carousel
       withIndicators
-      height={400}
+      withControls={false}
+      height={490}
+      plugins={[autoplay.current]}
       slideGap={{ base: 0, sm: "md" }}
-      emblaOptions={{ loop: true, align: "start" }}
-    >
+      emblaOptions={{ loop: true, align: "start" }}>
+
       <Carousel.Slide>
-        <Image src="https://www.apple.com/v/iphone-16/f/images/meta/iphone-16_overview__fcivqu9d5t6q_og.png?202507172105" />
+        <Image h='100%' fit="cover" src="https://rewardmobile.co.uk/wp-content/uploads/2024/09/iPhone16-RewardMobile-Banner-Page-Preorder.jpg" />
       </Carousel.Slide>
 
       <Carousel.Slide>
-        <Image src="https://wearepolaris.sg/wp-content/uploads/2021/10/Web-Banner-Blank-Macbook-1024x512.jpg" />
+        <Image h='100%' fit="cover" src="https://support.apple.com/content/dam/edam/applecare/images/en_US/psp/psp_heroes/hero-banner-maclaptop.image.large_2x.jpg" />
       </Carousel.Slide>
 
       <Carousel.Slide>
-        <Image src="https://mybyte.com.au/cdn/shop/articles/apple-airpods-max-banner.jpg?v=1724643954&width=1024" />
+        <Image h='100%' fit="cover" src="https://mybyte.com.au/cdn/shop/articles/apple-airpods-max-banner.jpg?v=1724643954&width=1024" />
       </Carousel.Slide>
     </Carousel>
   );

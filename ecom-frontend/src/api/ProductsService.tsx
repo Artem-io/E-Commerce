@@ -1,5 +1,6 @@
 import axios from "axios";
 
+axios.defaults.withCredentials = true;
 const AUTH_URL = "http://localhost:8080/auth"
 const PRODUCTS_URL = "http://localhost:8080/products"
 
@@ -13,8 +14,7 @@ export async function getAllProducts(
   size: number=15, 
   sortBy: string='name', 
   order: string='asc') {
-  return await axios.get(`${PRODUCTS_URL}?name=${searchParam}&page=${page}&size=${size}&sort=${sortBy},${order}`, 
-    {withCredentials: true}
+  return await axios.get(`${PRODUCTS_URL}?name=${searchParam}&page=${page}&size=${size}&sort=${sortBy},${order}`
   );
 }
 
@@ -44,4 +44,8 @@ export async function getAllProducts(
 //           },
 //         }
 //   );
+// }
+
+// export async function validateToken() {
+//   return await axios.get(`${AUTH_URL}/validate`, {withCredentials: true});
 // }
