@@ -1,13 +1,15 @@
-import { Button, Group, Anchor, Text, Burger, Drawer, Stack } from "@mantine/core";
+import { Button, Group, Anchor, Text, Burger, Drawer, Stack, Avatar, Menu } from "@mantine/core";
 import { FaShop } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
 import { FiLogIn } from "react-icons/fi";
 import { useDisclosure } from '@mantine/hooks';
 import { useAuth } from "./AuthContext";
+import { jwtDecode } from "jwt-decode";
 
 const Navbar = () => {
   const [opened, { toggle, close }] = useDisclosure(false);
-  const { isAuth } = useAuth();
+  const { isAuth, setIsAuth } = useAuth();
+  const decoded = isAuth? jwtDecode(document.cookie) : { authorities: [] };
 
   return (
     <Group h='70px' px={{ base: '20px', sm: '30px', md: '50px' }} bg='#141b29' justify="space-between">
@@ -17,7 +19,7 @@ const Navbar = () => {
       <Text c="white">E-Shop</Text>
       </Group>
 
-      <Button onClick={()=>{console.log(document.cookie)}}>Get Cookies</Button>
+      {/* <Button onClick={()=>{console.log(document.cookie)}}>Get Cookies</Button> */}
 
       <Group visibleFrom="xs" justify="space-between">
         <Anchor href="/" underline="never"> Home </Anchor>
@@ -26,9 +28,30 @@ const Navbar = () => {
         <Anchor underline="never" >Contact</Anchor>
         <FaShoppingCart color="white" size={25} />
         
-        {isAuth? <Button>Welcome</Button> :
-         <Button component="a" href="/auth" leftSection={<FiLogIn size={20} />}> Login </Button>
-        }
+        {isAuth? 
+
+        <Menu shadow="md" width={200}>
+          <Menu.Target> 
+              <Avatar />
+          </Menu.Target>
+
+          <Menu.Dropdown>
+
+          <Menu.Item> 
+            {decoded.sub} 
+          </Menu.Item>
+
+          <Menu.Item onClick={()=>{
+            document.cookie='jwt=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            setIsAuth(false);
+            }}> 
+             Logout 
+          </Menu.Item>
+
+          </Menu.Dropdown>
+        </Menu> 
+
+         : <Button component="a" href="/auth" leftSection={<FiLogIn size={20} />}> Login </Button> }
         
       </Group>
 

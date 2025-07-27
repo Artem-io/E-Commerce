@@ -40,9 +40,8 @@ const Authentication = () => {
       await login(form.values);
       setIsAuth(true);
       navigate("/");
-    } catch (err) {
-      console.error("Error during login:", err);
-    }
+    } 
+    catch (err) {console.error("Error during login:", err)}
   };
 
   return (
@@ -95,9 +94,8 @@ const Authentication = () => {
             <Anchor component="button" type="button" c="dimmed" onClick={() => toggle()} size="xs">
               {type === "register" ? "Already have an account? Login" : "Don't have an account? Register"}
             </Anchor>
-            <Button type="submit" radius="md">
-              {upperFirst(type)}
-            </Button>
+            <Button onClick={()=>navigate('/')} variant="default" radius="md"> Back </Button>
+            <Button type="submit" radius="md"> {upperFirst(type)} </Button>
           </Group>
         </form>
       </Paper>
