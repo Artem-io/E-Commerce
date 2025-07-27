@@ -5,8 +5,10 @@ import { FiLogIn } from "react-icons/fi";
 import { useDisclosure } from '@mantine/hooks';
 import { useAuth } from "./AuthContext";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [opened, { toggle, close }] = useDisclosure(false);
   const { isAuth, setIsAuth } = useAuth();
   const decoded = isAuth? jwtDecode(document.cookie) : { authorities: [] };
@@ -40,6 +42,12 @@ const Navbar = () => {
           <Menu.Item> 
             {decoded.sub} 
           </Menu.Item>
+
+          {decoded.authorities.find((role: string) => role === 'ROLE_ADMIN')? 
+          (<Menu.Item onClick={()=>navigate('/add-product')}>
+            Add Product
+          </Menu.Item>) : <></>
+          } 
 
           <Menu.Item onClick={()=>{
             document.cookie='jwt=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';

@@ -24,6 +24,7 @@ const Authentication = () => {
   const [type, toggle] = useToggle(["login", "register"]);
   const { setIsAuth } = useAuth();
   const form = useForm({
+    mode: "uncontrolled",
     initialValues: {
       username: "",
       password: "",
@@ -63,11 +64,7 @@ const Authentication = () => {
 
         <Divider label="Or continue with username" labelPosition="center" my="lg" />
 
-        <form
-          onSubmit={form.onSubmit(() => {
-            attemptLogin();
-          })}
-        >
+        <form onSubmit = {form.onSubmit(() => {attemptLogin()})}>
           <Stack>
             <TextInput label="Username" placeholder="Your username" {...form.getInputProps("username")} radius="md" />
 

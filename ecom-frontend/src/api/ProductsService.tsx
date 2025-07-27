@@ -18,23 +18,14 @@ export async function getAllProducts(
   );
 }
 
-// export async function addProduct(jwt, assignment) {
-//   return await axios.post(
-//         PRODUCTS_URL,
-//         {
-//           "name": assignment.name,
-//           "status": "SUBMITTED",
-//           "githubURL": assignment.githubURL,
-//           "branch": assignment.branch,
-//           "reviewVideoURL": ""
-//         },
-//         {
-//           headers: {
-//             Authorization: `Bearer ${jwt}`
-//           },
-//         }
-//       );
-// }
+export async function addProduct(product) {
+  return await axios.post(
+        PRODUCTS_URL, product, {
+          headers: {'Content-Type': 'multipart/form-data'},
+          withCredentials: true
+        }
+      );
+}
 
 // export async function deleteProduct(id, jwt) {
 //   return await axios.delete(`${PRODUCTS_URL}/${id}`,
