@@ -5,16 +5,16 @@ import ProductsGrid from "./ProductsGrid";
 
 const HomePage = ({products}) => {
   return (
-    <>
+    <Stack pb={40}>
     <FeaturedCarousel />
 
-    <Stack align="center" justify="center">
-        <Title>Products</Title>
-        <Text>Discover our handpicked selection of top-rated items for you</Text>
-      </Stack>
+    <Stack mb={30} align="center" justify="center">
+        <Title size={40}>Featured Products</Title>
+        <Text size='lg'>Discover our handpicked selection of top-rated items for you</Text>
+    </Stack>
 
       <ProductsGrid products={products} nb={4} />
-    </>
+    </Stack>
   );
 };
 

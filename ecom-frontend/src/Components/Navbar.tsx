@@ -21,8 +21,6 @@ const Navbar = () => {
       <Text c="white">E-Shop</Text>
       </Group>
 
-      {/* <Button onClick={()=>{console.log(document.cookie)}}>Get Cookies</Button> */}
-
       <Group visibleFrom="xs" justify="space-between">
         <Anchor href="/" underline="never"> Home </Anchor>
         <Anchor underline="never" href="/products" >Products</Anchor>

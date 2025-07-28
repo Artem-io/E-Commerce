@@ -1,26 +1,31 @@
-import { SimpleGrid, Text, Center, Button, Card, Group, Image } from "@mantine/core";
+import { SimpleGrid, Text, Center, Button, Card, Group, Image, Title, Stack } from "@mantine/core";
+import { FaShoppingCart } from "react-icons/fa";
 
 const ProductsGrid = ({ products, nb }) => {
   return (
     <>
       <Center>
-        <SimpleGrid spacing={100} cols={{ base: 2, lg: 4 }}>
+        <SimpleGrid spacing={{base: 20, md: 40, lg: 50}} cols={{ base: 1, sm: 2, md: 3, lg: 4 }}>
           {products ? (
             products.slice(-nb).map((product) => (
-              <Card h='320px' w='250px' shadow="sm" radius="md" withBorder key={product.id}>
+              <Card w='320px' h='400px' shadow="sm" radius="lg" withBorder key={product.id}>
 
                 <Card.Section>
-                  <Image h='210px' src={product.imageUrl} fallbackSrc="https://trukszyn.pl/wp-content/uploads/woocommerce-placeholder-348x348.png" />
+                  <Image mb={15} h='178px' src={product.imageUrl} fallbackSrc="https://trukszyn.pl/wp-content/uploads/woocommerce-placeholder-348x348.png" />
                 </Card.Section>
 
-                <Text>{product.name}</Text>
-                <Text>{product.description}</Text>
+                <Stack h='100%' justify="space-between" gap={8}>
 
-                <Group justify="space-between">
-                  <Text>${product.price}</Text>
-                  <Button disabled={!product.isAvailable}>Add to Cart</Button>
+                <Title fw={600} order={5}>{product.name}</Title>
+                <Text size="sm" c='dimmed'>{product.description}</Text>
+                
+                <Group justify="space-around">
+                  <Text fw='bold'>${product.price}</Text>
+                  <Button leftSection={<FaShoppingCart size={17} />} radius='md' 
+                  disabled={!product.isAvailable}> Add to Cart </Button>
                 </Group>
 
+                </Stack>
               </Card>
             ))
           ) : (
