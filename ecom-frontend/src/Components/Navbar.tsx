@@ -57,7 +57,7 @@ const Navbar = () => {
           </Menu.Dropdown>
         </Menu> 
 
-         : <Button component="a" href="/auth" leftSection={<FiLogIn size={20} />}> Login </Button> }
+         : <Button radius='md' component="a" href="/auth" leftSection={<FiLogIn size={20} />}> Login </Button> }
         
       </Group>
 

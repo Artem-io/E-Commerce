@@ -13,11 +13,12 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { upperFirst, useToggle } from "@mantine/hooks";
-import { login } from "../api/ProductsService";
+import { login, register } from "../api/ProductsService";
 import { FcGoogle } from "react-icons/fc";
-import { FaMicrosoft } from "react-icons/fa";
+import { FaCheck, FaMicrosoft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import { notifications } from "@mantine/notifications";
 
 const Authentication = () => {
   const navigate = useNavigate();
@@ -27,11 +28,13 @@ const Authentication = () => {
     initialValues: {
       username: "",
       password: "",
-      terms: false,
+      terms: false
     },
 
     validate: {
-      password: (val) => (val.length <= 1 ? "Password should include at least 6 characters" : null),
+      username: (val) => (val === "" ? "Please enter username" : null),
+      password: (val) => (val.length < 4 ? "Password should include at least 4 characters" : null),
+      terms: (val) => ((val === false && type === "register") ? "Please accept terms and conditions" : null)
     },
   });
 
@@ -40,8 +43,42 @@ const Authentication = () => {
       await login(form.values);
       setIsAuth(true);
       navigate("/");
+      notifications.show({
+        color: "#28a745",
+        message: "You've logged in successfully",
+        radius: 12,
+        w: 350,
+        withBorder: true,
+        icon: <FaCheck />,
+      });
+
+      console.log("Login: ");
+      console.log(form.values);
     } 
     catch (err) {console.error("Error during login:", err)}
+  };
+
+  const attemptRegister = async () => {
+    try {
+      await register(form.values);
+      notifications.show({
+        color: "#28a745",
+        title: "Thank you for registration",
+        message: "You can now login to your account",
+        radius: 12,
+        w: 350,
+        withBorder: true,
+        icon: <FaCheck />,
+      });
+      form.reset();
+      toggle();
+
+      console.log("Register: ");
+      console.log(form.values);
+    } 
+    catch (err) {
+      console.error("Error during registration:", err);
+    }
   };
 
   return (
@@ -63,12 +100,11 @@ const Authentication = () => {
 
         <Divider label="Or continue with username" labelPosition="center" my="lg" />
 
-        <form onSubmit = {form.onSubmit(() => {attemptLogin()})}>
+        <form onSubmit = {form.onSubmit(() => type === 'login'? attemptLogin() : attemptRegister())}>
           <Stack>
-            <TextInput required label="Username" placeholder="Your username" {...form.getInputProps("username")} radius="md" />
+            <TextInput label="Username" placeholder="Your username" {...form.getInputProps("username")} radius="md" />
 
             <PasswordInput
-              required
               label="Password"
               placeholder="Your password"
               {...form.getInputProps("password")}
@@ -78,10 +114,9 @@ const Authentication = () => {
 
             {type === "register" && (
               <Checkbox
-                required
                 label="I accept terms and conditions"
                 checked={form.values.terms}
-                onChange={(event) => form.setFieldValue("terms", event.currentTarget.checked)}
+              onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)}
               />
             )}
           </Stack>

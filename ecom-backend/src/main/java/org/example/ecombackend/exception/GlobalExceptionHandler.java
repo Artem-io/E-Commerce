@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
+import java.util.NoSuchElementException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler
 {
@@ -27,5 +29,10 @@ public class GlobalExceptionHandler
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public ResponseEntity<?> handleException(HttpMediaTypeNotSupportedException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<?> handleException(NoSuchElementException ex) {
+        return ResponseEntity.badRequest().body("Element does not exist or has been deleted");
     }
 }

@@ -87,7 +87,7 @@ const AddProduct = () => {
               {...form.getInputProps("file")}
             />
 
-            <Checkbox radius="sm" label="Available" {...form.getInputProps("isAvailable")} />
+            <Checkbox label="Available" {...form.getInputProps("isAvailable")} />
 
           </Stack>
 

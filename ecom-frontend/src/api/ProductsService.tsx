@@ -8,6 +8,10 @@ export async function login(credentials) {
   await axios.post(`${AUTH_URL}/login`, credentials);
 }
 
+export async function register(credentials) {  
+  await axios.post(`${AUTH_URL}/register`, credentials);
+}
+
 export async function getAllProducts(
   searchParam: string='',
   page: number=0, 
