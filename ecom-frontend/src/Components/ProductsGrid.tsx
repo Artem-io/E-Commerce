@@ -1,13 +1,11 @@
-import { SimpleGrid, Text, Center, Button, Card, Group, Image, Title, Stack } from "@mantine/core";
+import { SimpleGrid, Text, Center, Button, Card, Group, Image, Title, Stack, Loader } from "@mantine/core";
 import { FaShoppingCart } from "react-icons/fa";
 
 const ProductsGrid = ({ products, nb }) => {
   return (
-    <>
       <Center>
-        <SimpleGrid spacing={{base: 20, md: 40, lg: 50}} cols={{ base: 1, sm: 2, md: 3, lg: 4 }}>
-          {products ? (
-            products.slice(-nb).map((product) => (
+    {products? (<SimpleGrid spacing={{base: 20, md: 40, lg: 50}} cols={{ base: 1, sm: 2, md: 3, lg: 4 }}>
+            {products.slice(-nb).map((product) => (
               <Card w='320px' h='400px' shadow="sm" radius="lg" withBorder key={product.id}>
 
                 <Card.Section>
@@ -27,13 +25,9 @@ const ProductsGrid = ({ products, nb }) => {
 
                 </Stack>
               </Card>
-            ))
-          ) : (
-            <Text>Loading...</Text>
-          )}
-        </SimpleGrid>
+            ))}
+        </SimpleGrid>) : <Loader size='lg' color="blue" />}
       </Center>
-    </>
   );
 };
 

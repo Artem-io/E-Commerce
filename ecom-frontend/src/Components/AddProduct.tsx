@@ -34,7 +34,8 @@ const AddProduct = () => {
             radius: 12,
             w: 350,
             withBorder: true,
-            icon: <FaCheck />
+            icon: <FaCheck />,
+            position: "bottom-center"
           })
           form.reset();
       console.log(form.values);

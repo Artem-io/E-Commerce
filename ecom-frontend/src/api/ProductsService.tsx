@@ -40,7 +40,3 @@ export async function addProduct(product) {
 //         }
 //   );
 // }
-
-// export async function validateToken() {
-//   return await axios.get(`${AUTH_URL}/validate`, {withCredentials: true});
-// }

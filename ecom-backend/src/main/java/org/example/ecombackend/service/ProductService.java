@@ -46,4 +46,8 @@ public class ProductService
         s3Service.deleteObject(fileName);
         productRepo.deleteById(id);
     }
+
+    public Product getProductById(Long id) {
+        return productRepo.findById(id).orElseThrow();
+    }
 }

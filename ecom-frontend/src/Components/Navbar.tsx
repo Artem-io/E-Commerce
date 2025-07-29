@@ -1,4 +1,4 @@
-import { Button, Group, Anchor, Text, Burger, Drawer, Stack, Avatar, Menu } from "@mantine/core";
+import { Button, Group, Anchor, Text, Burger, Drawer, Stack, Avatar, Menu, Overlay } from "@mantine/core";
 import { FaShop } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
 import { FiLogIn } from "react-icons/fi";
@@ -30,22 +30,27 @@ const Navbar = () => {
         
         {isAuth? 
 
-        <Menu shadow="md" width={200}>
+        <Menu withOverlay={true} radius={10} shadow="md" width={180} 
+        transitionProps={{ transition: 'pop-top-right', duration: 200 }}
+        styles={{
+        overlay: {
+          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+          backdropFilter: 'blur(2px)'}}}>
+
           <Menu.Target> 
               <Avatar />
           </Menu.Target>
 
-          <Menu.Dropdown>
+          <Menu.Dropdown p={10}>
 
           <Menu.Item> 
             {decoded.sub} 
           </Menu.Item>
 
-          {decoded.authorities.find((role: string) => role === 'ROLE_ADMIN')? 
+          {decoded.authorities.find((role: string) => role === 'ROLE_ADMIN') && 
           (<Menu.Item onClick={()=>navigate('/add-product')}>
             Add Product
-          </Menu.Item>) : <></>
-          } 
+          </Menu.Item>)} 
 
           <Menu.Item onClick={()=>{
             document.cookie='jwt=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -55,9 +60,7 @@ const Navbar = () => {
           </Menu.Item>
 
           </Menu.Dropdown>
-        </Menu> 
-
-         : <Button radius='md' component="a" href="/auth" leftSection={<FiLogIn size={20} />}> Login </Button> }
+        </Menu> : <Button radius='md' component="a" href="/auth" leftSection={<FiLogIn size={20} />}> Login </Button> }
         
       </Group>
 

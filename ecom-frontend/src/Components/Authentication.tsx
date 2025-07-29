@@ -50,6 +50,7 @@ const Authentication = () => {
         w: 350,
         withBorder: true,
         icon: <FaCheck />,
+        position: "bottom-center"
       });
 
       console.log("Login: ");
