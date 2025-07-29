@@ -1,0 +1,1 @@
+alter table products RENAME COLUMN image_url to image_name;

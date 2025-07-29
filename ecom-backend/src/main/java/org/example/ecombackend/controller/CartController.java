@@ -4,8 +4,7 @@ import org.example.ecombackend.model.Cart;
 import org.example.ecombackend.model.User;
 import org.example.ecombackend.service.CartService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -13,10 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class CartController {
     private final CartService cartService;
 
-    public Cart addToCart(Long productId, @AuthenticationPrincipal User user) {
+    @PostMapping("{productId}")
+    public Cart addToCart(@PathVariable Long productId, @AuthenticationPrincipal User user) {
         return cartService.addToCart(productId, user);
     }
 
+    @GetMapping
     public Cart getCart(@AuthenticationPrincipal User user) {
         return cartService.getCart(user);
     }

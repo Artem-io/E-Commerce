@@ -15,15 +15,12 @@ CREATE TABLE carts
 );
 
 ALTER TABLE cart_items
-    ADD CONSTRAINT uc_cart_items_product UNIQUE (product_id);
-
-ALTER TABLE cart_items
     ADD CONSTRAINT FK_CART_ITEMS_ON_CART FOREIGN KEY (cart_id) REFERENCES carts (id);
 
 ALTER TABLE cart_items
     ADD CONSTRAINT FK_CART_ITEMS_ON_PRODUCT FOREIGN KEY (product_id) REFERENCES products (id);
 
-ALTER TABLE users ADD cart_id  BIGINT NULL;
+ALTER TABLE users add cart_id bigint null;
 
 ALTER TABLE users
     ADD CONSTRAINT uc_users_cart UNIQUE (cart_id);

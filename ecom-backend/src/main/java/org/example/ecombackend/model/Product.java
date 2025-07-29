@@ -35,5 +35,5 @@ public class Product
     @NotNull(message = "Availability status is required")
     Boolean isAvailable;
 
-    private String imageUrl;
+    private String imageName;
 }

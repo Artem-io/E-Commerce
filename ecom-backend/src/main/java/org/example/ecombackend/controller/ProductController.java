@@ -2,6 +2,7 @@ package org.example.ecombackend.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.ecombackend.model.Product;
+import org.example.ecombackend.model.ProductDTO;
 import org.example.ecombackend.service.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +22,8 @@ public class ProductController
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<Page<Product>> getAllProducts(@RequestParam(value = "name", required = false) String name,
-                                                        @PageableDefault(size = 20) Pageable pageable) {
+    public ResponseEntity<Page<ProductDTO>> getAllProducts(@RequestParam(value = "name", required = false) String name,
+                                                           @PageableDefault(size = 20) Pageable pageable) {
         //pageable syntax: products?page=0&size=10&sort=name,asc
         return ResponseEntity.ok(productService.getAllProducts(name, pageable));
     }

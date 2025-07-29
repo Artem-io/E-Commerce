@@ -1,4 +1,4 @@
-import { Button, Group, Anchor, Text, Burger, Drawer, Stack, Avatar, Menu, Overlay } from "@mantine/core";
+import { Button, Group, Anchor, Text, Burger, Drawer, Stack, Avatar, Menu } from "@mantine/core";
 import { FaShop } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
 import { FiLogIn } from "react-icons/fi";
@@ -26,7 +26,7 @@ const Navbar = () => {
         <Anchor underline="never" href="/products" >Products</Anchor>
         <Anchor underline="never" >About</Anchor>
         <Anchor underline="never" >Contact</Anchor>
-        <FaShoppingCart color="white" size={25} />
+        <FaShoppingCart onClick={()=>{navigate('/cart')}} color="white" size={25} />
         
         {isAuth? 
 
@@ -35,7 +35,7 @@ const Navbar = () => {
         styles={{
         overlay: {
           backgroundColor: 'rgba(0, 0, 0, 0.2)',
-          backdropFilter: 'blur(2px)'}}}>
+          backdropFilter: 'blur(1px)'}}}>
 
           <Menu.Target> 
               <Avatar />
@@ -65,7 +65,7 @@ const Navbar = () => {
       </Group>
 
 
-    <Burger opened={opened} onClick={toggle} aria-label="Toggle navigation" color="white" size="md" hiddenFrom="xs" /> 
+    {/* <Burger opened={opened} onClick={toggle} aria-label="Toggle navigation" color="white" size="md" hiddenFrom="xs" /> 
 
     <Drawer size='xs' opened={opened} onClose={close} overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}>
       <Stack justify="space-between">
@@ -73,10 +73,9 @@ const Navbar = () => {
         <Anchor underline="never" href="/products" >Products</Anchor>
         <Anchor underline="never" >About</Anchor>
         <Anchor underline="never" >Contact</Anchor>
-        <FaShoppingCart color="white" size={25} />
         <Button component="a" href="/auth" leftSection={<FiLogIn size={20} />}> Login </Button>
       </Stack>
-    </Drawer>
+    </Drawer> */}
 
     </Group>
   )

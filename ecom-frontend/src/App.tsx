@@ -8,6 +8,7 @@ import Authentication from "./Components/Authentication";
 import { useAuth } from "./Components/AuthContext";
 import AddProduct from "./Components/AddProduct";
 import { jwtDecode } from "jwt-decode";
+import Cart from "./Components/Cart";
 
 function App() {
   const [products, setProducts] = useState(null);
@@ -31,8 +32,9 @@ function App() {
           <Route path="/" element={<HomePage products={products} />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/add-product" element={decoded.authorities.find((role: string) => role === 'ROLE_ADMIN')? 
-          <AddProduct /> : <Navigate to="/"/>} />
-          <Route path="/auth" element={isAuth? <Navigate to="/"/> : <Authentication />} />
+          <AddProduct /> : <Navigate to="/" />} />
+          <Route path="/auth" element={isAuth? <Navigate to="/" /> : <Authentication />} />
+          <Route path="/cart" element={isAuth? <Cart /> : <Navigate to="/auth" />} />
         </Routes>
       </BrowserRouter>
     </>

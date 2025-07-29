@@ -5,6 +5,7 @@ import org.example.ecombackend.model.CartItem;
 import org.example.ecombackend.model.Product;
 import org.example.ecombackend.model.User;
 import org.example.ecombackend.repository.CartRepository;
+import org.example.ecombackend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,14 +13,16 @@ import org.springframework.stereotype.Service;
 public class CartService {
     private final CartRepository cartRepo;
     private final ProductService productService;
+    private final UserRepository userRepo;
 
     public Cart addToCart(Long productId, User user) {
 
-            Cart cart = cartRepo.save(new Cart());
-            user.setCart(cart);
+            Cart cart = new Cart();
             Product product = productService.getProductById(productId);
             CartItem cartItem = new CartItem(null, product, 1);
             cart.getItems().add(cartItem);
+            user.setCart(cart);
+            userRepo.save(user);
             return cartRepo.save(cart);
 
     }

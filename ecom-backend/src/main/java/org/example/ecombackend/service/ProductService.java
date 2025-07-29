@@ -2,6 +2,8 @@ package org.example.ecombackend.service;
 import lombok.RequiredArgsConstructor;
 import org.example.ecombackend.S3.S3Service;
 import org.example.ecombackend.model.Product;
+import org.example.ecombackend.model.ProductDTO;
+import org.example.ecombackend.model.ProductDTOMapper;
 import org.example.ecombackend.repository.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,23 +20,20 @@ public class ProductService
 {
     private final ProductRepository productRepo;
     private final S3Service s3Service;
+    private final ProductDTOMapper productDtoMapper;
 
-    public Page<Product> getAllProducts(String name, Pageable pageable) {
+    public Page<ProductDTO> getAllProducts(String name, Pageable pageable) {
         Page<Product> products = (name == null || name.trim().isEmpty())
                 ? productRepo.findAll(pageable)
                 : productRepo.findByNameContainingIgnoreCase(name, pageable);
 
-        return products.map(product -> {
-            String fileName = product.getId() + product.getName();
-            product.setImageUrl(s3Service.getPresignedUrl(fileName));
-            return product;
-        });
+        return products.map(productDtoMapper);
     }
 
     public Product addProduct(Product product, MultipartFile file) throws IOException {
             if(file!=null && !file.isEmpty()) {
-                productRepo.save(product);
-                String fileName = product.getId() + product.getName();
+                String fileName = file.getOriginalFilename();
+                product.setImageName(fileName);
                 s3Service.uploadObject(fileName, file.getBytes());
             }
             return productRepo.save(product);
@@ -42,8 +41,7 @@ public class ProductService
 
     public void deleteProduct(Long id) {
         Product product = productRepo.findById(id).orElseThrow();
-        String fileName = product.getId() + product.getName();
-        s3Service.deleteObject(fileName);
+        s3Service.deleteObject(product.getImageName());
         productRepo.deleteById(id);
     }
 

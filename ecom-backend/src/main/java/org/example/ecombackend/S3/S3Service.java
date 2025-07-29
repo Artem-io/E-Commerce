@@ -6,6 +6,7 @@ import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
@@ -26,7 +27,9 @@ public class S3Service
     public void uploadObject(String key, byte[] file)
     {
         PutObjectRequest objectRequest = PutObjectRequest.builder()
-                .bucket(bucketName).key(key).build();
+                .bucket(bucketName).key(key)
+                .acl(ObjectCannedACL.PUBLIC_READ)
+                .build();
 
         s3Client.putObject(objectRequest, RequestBody.fromBytes(file));
     }
@@ -36,16 +39,7 @@ public class S3Service
         s3Client.deleteObject(deleteObjectRequest);
     }
 
-    public String getPresignedUrl(String keyName)
-    {
-        if(keyName==null || keyName.isEmpty()) return null;
-        GetObjectRequest objectRequest = GetObjectRequest.builder().bucket(bucketName).key(keyName).build();
-
-        GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()
-                .signatureDuration(Duration.ofHours(5L))
-                .getObjectRequest(objectRequest).build();
-
-        PresignedGetObjectRequest presignedRequest = s3Presigner.presignGetObject(presignRequest);
-        return presignedRequest.url().toExternalForm();
+    public String getFileUrl(String fileName) {
+        return String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, s3Client.serviceClientConfiguration().region().id(), fileName);
     }
 }

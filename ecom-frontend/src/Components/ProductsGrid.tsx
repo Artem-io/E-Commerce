@@ -1,7 +1,21 @@
 import { SimpleGrid, Text, Center, Button, Card, Group, Image, Title, Stack, Loader } from "@mantine/core";
+import { jwtDecode } from "jwt-decode";
 import { FaShoppingCart } from "react-icons/fa";
+import { useAuth } from "./AuthContext";
+import { FaTrashCan } from "react-icons/fa6";
+import { deleteProduct } from "../api/ProductsService";
 
 const ProductsGrid = ({ products, nb }) => {
+  const { isAuth } = useAuth();
+  const decoded = isAuth? jwtDecode(document.cookie) : { authorities: [] };
+
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteProduct(id);
+    }
+    catch(err) {console.log(err)}
+  }
+
   return (
       <Center>
     {products? (<SimpleGrid spacing={{base: 20, md: 40, lg: 50}} cols={{ base: 1, sm: 2, md: 3, lg: 4 }}>
@@ -19,8 +33,16 @@ const ProductsGrid = ({ products, nb }) => {
                 
                 <Group justify="space-around">
                   <Text fw='bold'>${product.price}</Text>
-                  <Button leftSection={<FaShoppingCart size={17} />} radius='md' 
+
+                  {decoded.authorities.find((role: string) => role === 'ROLE_ADMIN')? 
+
+                  <Button color="red" leftSection={<FaTrashCan size={17} />} 
+                  onClick={()=>{handleDelete(product.id)}} radius='md'> Delete Product </Button>
+
+                 : <Button leftSection={<FaShoppingCart size={17} />} radius='md' 
                   disabled={!product.isAvailable}> Add to Cart </Button>
+                }
+
                 </Group>
 
                 </Stack>
