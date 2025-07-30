@@ -19,7 +19,7 @@ public class Cart
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JoinColumn(name = "cart_id") //creates 'cart_id' field in cart_items table
+    @JoinColumn(name = "cart_id")
     private List<CartItem> items = new ArrayList<>();
 
     private double totalPrice;

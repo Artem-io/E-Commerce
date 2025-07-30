@@ -1,4 +1,6 @@
 package org.example.ecombackend.model.Product;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -7,8 +9,12 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.example.ecombackend.model.CartItem.CartItem;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -36,4 +42,10 @@ public class Product
     Boolean isAvailable;
 
     private String imageName;
+
+    @JsonIgnore
+    @ToString.Exclude
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CartItem> cartItems = new ArrayList<>();
+
 }

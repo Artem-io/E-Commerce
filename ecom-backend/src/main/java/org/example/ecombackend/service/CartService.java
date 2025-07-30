@@ -6,16 +6,19 @@ import org.example.ecombackend.model.Cart.CartDTOMapper;
 import org.example.ecombackend.model.CartItem.CartItem;
 import org.example.ecombackend.model.Product.Product;
 import org.example.ecombackend.model.User;
+import org.example.ecombackend.repository.CartItemRepository;
 import org.example.ecombackend.repository.CartRepository;
 import org.example.ecombackend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CartService {
+public class CartService
+{
     private final CartRepository cartRepo;
-    private final ProductService productService;
     private final UserRepository userRepo;
+    private final CartItemRepository cartItemRepo;
+    private final ProductService productService;
     private final CartDTOMapper cartDTOMapper;
 
     public Cart addToCart(Long productId, User user) {
@@ -26,15 +29,26 @@ public class CartService {
         }
         else cart = user.getCart();
 
+        CartItem existingCartItem = cartItemRepo.findByCartAndProduct_Id(cart.getId(), productId);
+        if(existingCartItem != null) {
+            existingCartItem.setQuantity(existingCartItem.getQuantity() + 1);
+            cartItemRepo.save(existingCartItem);
+            return cart;
+        }
+
         Product product = productService.getProductById(productId);
         CartItem cartItem = new CartItem(null, product, 1);
         cart.getItems().add(cartItem);
-        userRepo.save(user);
 
+        userRepo.save(user);
         return cartRepo.save(cart);
     }
 
     public CartDTO getCart(User user) {
         return cartDTOMapper.apply(user.getCart());
     }
+
+//    public void deleteCartItem(Long itemId, User user) {
+//
+//    }
 }

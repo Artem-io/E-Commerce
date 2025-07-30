@@ -31,10 +31,10 @@ const Navbar = () => {
         {isAuth? 
 
         <Menu withOverlay={true} radius={10} shadow="md" width={180} 
-        transitionProps={{ transition: 'pop-top-right', duration: 200 }}
+        transitionProps={{ transition: 'scale', duration: 300 }}
         styles={{
         overlay: {
-          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+          backgroundColor: 'rgba(0, 0, 0, 0.1)',
           backdropFilter: 'blur(1px)'}}}>
 
           <Menu.Target> 

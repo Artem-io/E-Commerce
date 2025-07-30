@@ -22,4 +22,9 @@ public class CartController {
     public CartDTO getCart(@AuthenticationPrincipal User user) {
         return cartService.getCart(user);
     }
+
+//    @DeleteMapping("{itemId}")
+//    public void deleteCartItem(@PathVariable Long itemId, @AuthenticationPrincipal User user) {
+//        return cartService.deleteCartItem(itemId, user);
+//    }
 }
