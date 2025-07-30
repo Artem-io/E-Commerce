@@ -1,8 +1,8 @@
 package org.example.ecombackend.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.ecombackend.model.Product;
-import org.example.ecombackend.model.ProductDTO;
+import org.example.ecombackend.model.Product.Product;
+import org.example.ecombackend.model.Product.ProductDTO;
 import org.example.ecombackend.service.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

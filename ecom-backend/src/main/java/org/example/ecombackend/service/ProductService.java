@@ -1,15 +1,13 @@
 package org.example.ecombackend.service;
 import lombok.RequiredArgsConstructor;
 import org.example.ecombackend.S3.S3Service;
-import org.example.ecombackend.model.Product;
-import org.example.ecombackend.model.ProductDTO;
-import org.example.ecombackend.model.ProductDTOMapper;
+import org.example.ecombackend.model.Product.Product;
+import org.example.ecombackend.model.Product.ProductDTO;
+import org.example.ecombackend.model.Product.ProductDTOMapper;
 import org.example.ecombackend.repository.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package org.example.ecombackend.model;
+package org.example.ecombackend.model.Product;
 import java.math.BigDecimal;
 
 public record ProductDTO (

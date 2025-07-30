@@ -52,9 +52,6 @@ const Authentication = () => {
         icon: <FaCheck />,
         position: "bottom-center"
       });
-
-      console.log("Login: ");
-      console.log(form.values);
     } 
     catch (err) {console.error("Error during login:", err)}
   };
@@ -73,9 +70,6 @@ const Authentication = () => {
       });
       form.reset();
       toggle();
-
-      console.log("Register: ");
-      console.log(form.values);
     } 
     catch (err) {
       console.error("Error during registration:", err);

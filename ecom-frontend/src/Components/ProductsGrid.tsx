@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import { FaShoppingCart } from "react-icons/fa";
 import { useAuth } from "./AuthContext";
 import { FaTrashCan } from "react-icons/fa6";
-import { deleteProduct } from "../api/ProductsService";
+import { addToCart, deleteProduct } from "../api/ProductsService";
 
 const ProductsGrid = ({ products, nb }) => {
   const { isAuth } = useAuth();
@@ -12,6 +12,13 @@ const ProductsGrid = ({ products, nb }) => {
   const handleDelete = async (id: number) => {
     try {
       await deleteProduct(id);
+    }
+    catch(err) {console.log(err)}
+  }
+
+  const handleAddToCart = async (id: number) => {
+    try {
+      await addToCart(id);
     }
     catch(err) {console.log(err)}
   }
@@ -39,8 +46,8 @@ const ProductsGrid = ({ products, nb }) => {
                   <Button color="red" leftSection={<FaTrashCan size={17} />} 
                   onClick={()=>{handleDelete(product.id)}} radius='md'> Delete Product </Button>
 
-                 : <Button leftSection={<FaShoppingCart size={17} />} radius='md' 
-                  disabled={!product.isAvailable}> Add to Cart </Button>
+                 : <Button onClick={() => {handleAddToCart(product.id)}} leftSection={<FaShoppingCart size={17} />} 
+                 radius='md' disabled={!product.isAvailable}> Add to Cart </Button>
                 }
 
                 </Group>

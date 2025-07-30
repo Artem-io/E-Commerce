@@ -1,4 +1,4 @@
-package org.example.ecombackend.model;
+package org.example.ecombackend.model.Product;
 import lombok.RequiredArgsConstructor;
 import org.example.ecombackend.S3.S3Service;
 import org.springframework.stereotype.Service;

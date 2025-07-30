@@ -1,4 +1,4 @@
-package org.example.ecombackend.model;
+package org.example.ecombackend.model.Product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;

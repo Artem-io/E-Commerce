@@ -1,8 +1,9 @@
-package org.example.ecombackend.model;
+package org.example.ecombackend.model.CartItem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.ecombackend.model.Product.Product;
 
 @Data
 @Entity

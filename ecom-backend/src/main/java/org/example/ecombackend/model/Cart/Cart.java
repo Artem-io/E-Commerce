@@ -1,8 +1,9 @@
-package org.example.ecombackend.model;
+package org.example.ecombackend.model.Cart;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.ecombackend.model.CartItem.CartItem;
 
 import java.util.ArrayList;
 import java.util.List;

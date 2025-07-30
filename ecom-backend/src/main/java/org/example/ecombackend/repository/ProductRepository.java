@@ -1,6 +1,5 @@
 package org.example.ecombackend.repository;
-import aj.org.objectweb.asm.commons.Remapper;
-import org.example.ecombackend.model.Product;
+import org.example.ecombackend.model.Product.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
