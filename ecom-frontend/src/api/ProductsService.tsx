@@ -41,3 +41,7 @@ export async function getCart() {
 export async function addToCart(productId: number) {
   return await axios.post(`${CART_URL}/${productId}`, {withCredentials: true});
 }
+
+export async function deleteFromCart(itemId: number) {
+  return await axios.delete(`${CART_URL}/${itemId}`, {withCredentials: true});
+}
