@@ -22,6 +22,7 @@ public class CartService
     private final ProductService productService;
     private final CartDTOMapper cartDTOMapper;
 
+    @Transactional
     public CartDTO addToCart(Long productId, User user) {
         Cart cart;
         if(user.getCart() == null) {

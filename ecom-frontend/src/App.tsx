@@ -29,10 +29,10 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<HomePage products={products} />} />
+          <Route path="/" element={<HomePage products={products} onProductDeleted={fetchProducts} />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/add-product" element={decoded.authorities.find((role: string) => role === 'ROLE_ADMIN')? 
-          <AddProduct /> : <Navigate to="/" />} />
+          <AddProduct onProductAdded={fetchProducts} /> : <Navigate to="/" />} />
           <Route path="/auth" element={isAuth? <Navigate to="/" /> : <Authentication />} />
           <Route path="/cart" element={isAuth? <Cart /> : <Navigate to="/auth" />} />
         </Routes>

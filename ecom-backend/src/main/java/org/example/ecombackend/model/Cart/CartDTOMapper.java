@@ -17,7 +17,7 @@ public class CartDTOMapper implements Function<Cart, CartDTO>
                 cart.getItems().stream()
                     .map(cartItemDTOMapper)
                     .toList(),
-                cart.getTotalPrice()
+                cart.calculateTotalPrice()
         );
     }
 }

@@ -3,7 +3,7 @@ import type React from "react";
 import FeaturedCarousel from "./FeaturedCarousel";
 import ProductsGrid from "./ProductsGrid";
 
-const HomePage = ({products}) => {
+const HomePage = ({products, onProductDeleted}) => {
   return (
     <Stack pb={40}>
     <FeaturedCarousel />
@@ -13,7 +13,7 @@ const HomePage = ({products}) => {
         <Text size='lg'>Discover our handpicked selection of top-rated items for you</Text>
     </Stack>
 
-      <ProductsGrid products={products} nb={4} />
+      <ProductsGrid products={products} nb={5} onProductDeleted={onProductDeleted} />
     </Stack>
   );
 };

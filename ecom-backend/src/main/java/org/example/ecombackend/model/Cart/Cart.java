@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.ecombackend.model.CartItem.CartItem;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,5 +23,10 @@ public class Cart
     @JoinColumn(name = "cart_id")
     private List<CartItem> items = new ArrayList<>();
 
-    private double totalPrice;
+    public BigDecimal calculateTotalPrice() {
+        return items.stream()
+                .map(item -> item.getProduct().getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
 }

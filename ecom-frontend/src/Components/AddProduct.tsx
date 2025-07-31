@@ -5,7 +5,7 @@ import { addProduct } from "../api/ProductsService";
 import { notifications } from '@mantine/notifications';
 import { FaCheck, FaDollarSign } from "react-icons/fa";
 
-const AddProduct = () => {
+const AddProduct = ({ onProductAdded }: { onProductAdded: () => void }) => {
   const navigate = useNavigate();
   const form = useForm({
     initialValues: {
@@ -37,8 +37,9 @@ const AddProduct = () => {
             icon: <FaCheck />,
             position: "bottom-center"
           })
-          form.reset();
-      console.log(form.values);
+      form.reset();
+      onProductAdded();
+      // console.log(form.values);
     } 
     catch (err) {console.log(err)}
   };
@@ -88,7 +89,8 @@ const AddProduct = () => {
               {...form.getInputProps("file")}
             />
 
-            <Checkbox label="Available" {...form.getInputProps("isAvailable")} />
+            <Checkbox label="Available" checked={form.values.isAvailable}
+              onChange={(event) => form.setFieldValue('isAvailable', event.currentTarget.checked)} />
 
           </Stack>
 

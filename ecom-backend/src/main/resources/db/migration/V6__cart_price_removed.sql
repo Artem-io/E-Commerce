@@ -1,0 +1,1 @@
+alter table carts drop column total_price;

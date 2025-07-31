@@ -5,13 +5,14 @@ import { useAuth } from "./AuthContext";
 import { FaTrashCan } from "react-icons/fa6";
 import { addToCart, deleteProduct } from "../api/ProductsService";
 
-const ProductsGrid = ({ products, nb }) => {
+const ProductsGrid = ({ products, nb, onProductDeleted }: { products: any, nb: number, onProductDeleted: () => void }) => {
   const { isAuth } = useAuth();
   const decoded = isAuth? jwtDecode(document.cookie) : { authorities: [] };
 
   const handleDelete = async (id: number) => {
     try {
       await deleteProduct(id);
+      onProductDeleted();
     }
     catch(err) {console.log(err)}
   }
@@ -25,12 +26,12 @@ const ProductsGrid = ({ products, nb }) => {
 
   return (
       <Center>
-    {products? (<SimpleGrid spacing={{base: 20, md: 40, lg: 50}} cols={{ base: 1, sm: 2, md: 3, lg: 4 }}>
+    {products? (<SimpleGrid spacing={{base: 20, md: 40, lg: 50}} cols={{ base: 1, xs: 2, sm: 3, md: 4, lg: 5 }}>
             {products.slice(-nb).map((product) => (
-              <Card w='320px' h='400px' shadow="sm" radius="lg" withBorder key={product.id}>
+              <Card w='250px' h='350px' shadow="sm" radius="lg" withBorder key={product.id}>
 
                 <Card.Section>
-                  <Image mb={15} h='178px' src={product.imageUrl} fallbackSrc="https://trukszyn.pl/wp-content/uploads/woocommerce-placeholder-348x348.png" />
+                  <Image fit="contain" mb={10} h='150px' src={product.imageUrl} fallbackSrc="https://trukszyn.pl/wp-content/uploads/woocommerce-placeholder-348x348.png" />
                 </Card.Section>
 
                 <Stack h='100%' justify="space-between" gap={8}>
