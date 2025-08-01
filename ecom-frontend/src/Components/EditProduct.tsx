@@ -1,18 +1,20 @@
 import { Button, Center, Checkbox, FileInput, Group, Image, NumberInput, Paper, Stack, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useNavigate } from "react-router-dom";
-import { addProduct } from "../api/ProductsService";
+import { useNavigate, useParams } from "react-router-dom";
+import { addProduct, getProductById, updateProduct } from "../api/ProductsService";
 import { notifications } from '@mantine/notifications';
 import { FaCheck, FaDollarSign } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const AddProduct = ({ onProductAdded }: { onProductAdded: () => void }) => 
+const EditProduct = ({ onProductUpdated }: { onProductUpdated: () => void }) => 
   {
   const navigate = useNavigate();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const {id} = useParams();
   
   const form = useForm({
     initialValues: {
+      id: 0,
       name: "",
       description: "",
       price: "",
@@ -23,7 +25,7 @@ const AddProduct = ({ onProductAdded }: { onProductAdded: () => void }) =>
       name: (val) => (val === "" ? "Please enter the name" : null),
       description: (val) => (val === "" ? "Please enter the description" : null),
       price: (val) => (val === "" ? "Please enter the price" : null),
-      file: (val) => (val === null ? "Please upload product image" : null)
+
     },
   });
 
@@ -32,21 +34,31 @@ const AddProduct = ({ onProductAdded }: { onProductAdded: () => void }) =>
     setPreviewUrl(file? URL.createObjectURL(file) : null);
   };
 
-  const handleAddProduct = async () => {
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const response = await getProductById(id);
+      form.setValues(response.data);
+      setPreviewUrl(response.data.imageUrl)
+    };
+
+    fetchProduct();
+  }, []);
+
+  const handleEditProduct = async () => {
     try {
-      await addProduct(form.values);
+      await updateProduct(form.values);
       notifications.show({
         color: '#28a745',
         title: 'Success',
-        message: 'Product has been added',
+        message: 'Product has been updated',
         radius: 12,
         w: 350,
         withBorder: true,
         icon: <FaCheck />,
         position: "bottom-center"});
       form.reset();
-      setPreviewUrl(null);
-      onProductAdded();
+      onProductUpdated();
+      navigate('/');
     }
     catch (err) {console.log(err)};
   };
@@ -59,7 +71,7 @@ const AddProduct = ({ onProductAdded }: { onProductAdded: () => void }) =>
       <Paper w={400} radius="lg" p="lg" withBorder shadow="sm">
         <Text size="lg" fw={500}> Add new Product </Text>
 
-        <form onSubmit={form.onSubmit(() => {handleAddProduct()})}>
+        <form onSubmit={form.onSubmit(() => {handleEditProduct()})}>
           <Stack>
             <TextInput label="Product Name" placeholder="iPhone 15 Pro" radius="md" 
             {...form.getInputProps("name")} />
@@ -83,7 +95,7 @@ const AddProduct = ({ onProductAdded }: { onProductAdded: () => void }) =>
 
           <Group justify="space-evenly" mt="xl">
             <Button onClick={() => navigate("/")} radius="md" variant="default"> Cancel </Button>
-            <Button type="submit" radius="md"> Add </Button>
+            <Button type="submit" radius="md"> Edit </Button>
           </Group>
 
         </form>
@@ -92,4 +104,4 @@ const AddProduct = ({ onProductAdded }: { onProductAdded: () => void }) =>
   );
 };
 
-export default AddProduct;
+export default EditProduct;

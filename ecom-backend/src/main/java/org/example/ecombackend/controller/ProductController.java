@@ -28,11 +28,23 @@ public class ProductController
         return ResponseEntity.ok(productService.getAllProducts(name, pageable));
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.getProductById(id));
+    }
+
     @PostMapping(consumes = "multipart/form-data")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Product> addProduct(@Valid @ModelAttribute Product product,
-                                              @RequestParam(value = "file", required = true) MultipartFile file) throws IOException {
+    public ResponseEntity<ProductDTO> addProduct(@Valid @ModelAttribute Product product,
+                                              @RequestParam(value = "file") MultipartFile file) throws IOException {
         return ResponseEntity.ok(productService.addProduct(product, file));
+    }
+
+    @PutMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ProductDTO> updateProduct(@Valid @ModelAttribute Product product,
+                                              @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+        return ResponseEntity.ok(productService.updateProduct(product, file));
     }
 
     @DeleteMapping("{id}")

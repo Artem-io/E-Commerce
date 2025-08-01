@@ -8,6 +8,7 @@ import '@mantine/carousel/styles.css';
 import '@mantine/notifications/styles.css';
 import { AuthProvider } from "./Components/AuthContext.tsx";
 import { Notifications } from "@mantine/notifications";
+import '@mantine/dropzone/styles.css';
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

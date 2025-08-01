@@ -21,11 +21,12 @@ public class S3Service
     @Value("${aws.bucketName}")
     private String bucketName;
     private final S3Client s3Client;
-    private final S3Presigner s3Presigner;
-
 
     public void uploadObject(String key, byte[] file)
     {
+        if(file==null || file.length==0 || key==null || key.trim().isEmpty())
+            throw new IllegalArgumentException("Invalid file or filename");
+
         PutObjectRequest objectRequest = PutObjectRequest.builder()
                 .bucket(bucketName).key(key)
                 .acl(ObjectCannedACL.PUBLIC_READ)

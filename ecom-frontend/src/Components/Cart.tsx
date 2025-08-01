@@ -41,12 +41,10 @@ const Cart = () => {
 
   return (
     <>
-    <Group justify="center" mt="md">
+    <Group justify="center" my={30}>
         <FaShoppingCart size={30} />
         <Title order={1}>Your Cart</Title>
       </Group>
-
-    <div className="p-10">
 
       {loading && (
         <Center>
@@ -72,8 +70,12 @@ const Cart = () => {
         </Center>
       )}
 
+      
       {!loading && !error && cart !== null && cart.items?.length > 0 && (
+        <Group justify="space-between" px={50}>
+        
         <Stack p={15} bdrs={20} bd="2px solid #e0e0e0" maw={600}>
+
           {cart.items.map((item) => (
             <div key={item.id}>
               <Divider size="sm" />
@@ -87,7 +89,7 @@ const Cart = () => {
                 </Flex>
 
                 <Button.Group>
-              <Button variant="default" radius="md" onClick={decrement} size="xs" p={7}>
+              <Button variant="default" radius={12} onClick={decrement} size="xs" p={7}>
                 <TiMinus />
               </Button>
 
@@ -95,7 +97,7 @@ const Cart = () => {
                 {value}
               </Button.GroupSection>
 
-              <Button variant="default" radius="md" onClick={increment} size="xs" p={7}>
+              <Button variant="default" radius={12} onClick={increment} size="xs" p={7}>
                 <TiPlus />
               </Button>
             </Button.Group>
@@ -112,10 +114,20 @@ const Cart = () => {
               </Group>
             </div>
           ))}
+
           <Divider size="sm" />
+
         </Stack>
+        <Stack justify="space-between" mih={300} miw={300} p="lg" bdrs="lg" bd="2px solid #e0e0e0">
+        <Text>Order Summary</Text>
+        <Divider />
+        <Text>Total ${cart?.totalPrice}</Text>
+        <Button radius="md">Checkout</Button>
+      </Stack>
+      
+        </Group>
       )}
-    </div>
+      
     </>
   );
 };

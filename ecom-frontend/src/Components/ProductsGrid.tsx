@@ -1,13 +1,17 @@
 import { SimpleGrid, Text, Center, Button, Card, Group, Image, Title, Stack, Loader } from "@mantine/core";
 import { jwtDecode } from "jwt-decode";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaCheck, FaShoppingCart } from "react-icons/fa";
 import { useAuth } from "./AuthContext";
 import { FaTrashCan } from "react-icons/fa6";
 import { addToCart, deleteProduct } from "../api/ProductsService";
+import { notifications } from "@mantine/notifications";
+import { MdEdit } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const ProductsGrid = ({ products, nb, onProductDeleted }: { products: any, nb: number, onProductDeleted: () => void }) => {
   const { isAuth } = useAuth();
   const decoded = isAuth? jwtDecode(document.cookie) : { authorities: [] };
+  const navigate = useNavigate();
 
   const handleDelete = async (id: number) => {
     try {
@@ -20,6 +24,16 @@ const ProductsGrid = ({ products, nb, onProductDeleted }: { products: any, nb: n
   const handleAddToCart = async (id: number) => {
     try {
       await addToCart(id);
+      notifications.show({
+            color: '#28a745',
+            title: 'Success',
+            message: 'Product has been added to cart',
+            radius: 12,
+            w: 350,
+            withBorder: true,
+            icon: <FaCheck />,
+            position: "bottom-center"
+          })
     }
     catch(err) {console.log(err)}
   }
@@ -28,14 +42,14 @@ const ProductsGrid = ({ products, nb, onProductDeleted }: { products: any, nb: n
       <Center>
     {products? (<SimpleGrid spacing={{base: 20, md: 40, lg: 50}} cols={{ base: 1, xs: 2, sm: 3, md: 4, lg: 5 }}>
             {products.slice(-nb).map((product) => (
-              <Card w='250px' h='350px' shadow="sm" radius="lg" withBorder key={product.id}>
+              <Card p="xs" w={260} h={350} shadow="sm" radius="lg" withBorder key={product.id}>
 
                 <Card.Section>
-                  <Image fit="contain" mb={10} h='150px' src={product.imageUrl} fallbackSrc="https://trukszyn.pl/wp-content/uploads/woocommerce-placeholder-348x348.png" />
+                  <Image fit="contain" mb={5} h='150px' src={product.imageUrl} fallbackSrc="https://trukszyn.pl/wp-content/uploads/woocommerce-placeholder-348x348.png" />
                 </Card.Section>
 
                 <Stack h='100%' justify="space-between" gap={8}>
-
+                
                 <Title fw={600} order={5}>{product.name}</Title>
                 <Text size="sm" c='dimmed'>{product.description}</Text>
                 
@@ -44,8 +58,13 @@ const ProductsGrid = ({ products, nb, onProductDeleted }: { products: any, nb: n
 
                   {decoded.authorities.find((role: string) => role === 'ROLE_ADMIN')? 
 
-                  <Button color="red" leftSection={<FaTrashCan size={17} />} 
-                  onClick={()=>{handleDelete(product.id)}} radius='md'> Delete Product </Button>
+                  <Group>
+                  <Button onClick={()=>{navigate(`/products/${product.id}`)}} leftSection={<MdEdit size={17} />} 
+                  radius='md'> Edit </Button>
+
+                  <Button color="red" leftSection={<FaTrashCan size={15} />} 
+                  onClick={()=>{handleDelete(product.id)}} radius='md'> Delete </Button>
+                  </Group>
 
                  : <Button onClick={() => {handleAddToCart(product.id)}} leftSection={<FaShoppingCart size={17} />} 
                  radius='md' disabled={!product.isAvailable}> Add to Cart </Button>

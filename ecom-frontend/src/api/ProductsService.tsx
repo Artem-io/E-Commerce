@@ -14,17 +14,28 @@ export async function register(credentials) {
 }
 
 export async function getAllProducts(
-  searchParam: string='',
-  page: number=0, 
-  size: number=15, 
-  sortBy: string='name', 
-  order: string='asc') {
+  searchParam='',
+  page=0, 
+  size=15, 
+  sortBy='name', 
+  order='asc') {
   return await axios.get(`${PRODUCTS_URL}?name=${searchParam}&page=${page}&size=${size}&sort=${sortBy},${order}`
   );
 }
 
+export async function getProductById(id) {
+  return await axios.get(`${PRODUCTS_URL}/${id}`);
+}
+
 export async function addProduct(product) {
   return await axios.post(PRODUCTS_URL, product, {
+    headers: { "Content-Type": "multipart/form-data" },
+    withCredentials: true,
+  });
+}
+
+export async function updateProduct(product) {
+  return await axios.put(PRODUCTS_URL, product, {
     headers: { "Content-Type": "multipart/form-data" },
     withCredentials: true,
   });

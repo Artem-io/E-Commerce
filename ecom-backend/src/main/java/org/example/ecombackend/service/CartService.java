@@ -8,6 +8,7 @@ import org.example.ecombackend.model.Product.Product;
 import org.example.ecombackend.model.User;
 import org.example.ecombackend.repository.CartItemRepository;
 import org.example.ecombackend.repository.CartRepository;
+import org.example.ecombackend.repository.ProductRepository;
 import org.example.ecombackend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,7 @@ public class CartService
     private final CartRepository cartRepo;
     private final UserRepository userRepo;
     private final CartItemRepository cartItemRepo;
-    private final ProductService productService;
+    private final ProductRepository productRepo;
     private final CartDTOMapper cartDTOMapper;
 
     @Transactional
@@ -38,7 +39,7 @@ public class CartService
             return cartDTOMapper.apply(cart);
         }
 
-        Product product = productService.getProductById(productId);
+        Product product = productRepo.findById(productId).orElseThrow();
         CartItem cartItem = new CartItem(null, product, 1);
         cart.getItems().add(cartItem);
 

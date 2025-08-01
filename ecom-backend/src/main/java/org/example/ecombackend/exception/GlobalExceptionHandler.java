@@ -35,4 +35,9 @@ public class GlobalExceptionHandler
     public ResponseEntity<?> handleException(NoSuchElementException ex) {
         return ResponseEntity.badRequest().body("Element does not exist or has been deleted");
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> handleException(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
 }
