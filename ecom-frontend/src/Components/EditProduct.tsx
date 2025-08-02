@@ -1,7 +1,7 @@
 import { Button, Center, Checkbox, FileInput, Group, Image, NumberInput, Paper, Stack, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useNavigate, useParams } from "react-router-dom";
-import { addProduct, getProductById, updateProduct } from "../api/ProductsService";
+import { getProductById, updateProduct } from "../Api/ProductsService";
 import { notifications } from '@mantine/notifications';
 import { FaCheck, FaDollarSign } from "react-icons/fa";
 import { useEffect, useState } from "react";
@@ -34,15 +34,16 @@ const EditProduct = ({ onProductUpdated }: { onProductUpdated: () => void }) =>
     setPreviewUrl(file? URL.createObjectURL(file) : null);
   };
 
-  useEffect(() => {
-    const fetchProduct = async () => {
+  const fetchProduct = async () => {
+    try {
       const response = await getProductById(id);
       form.setValues(response.data);
-      setPreviewUrl(response.data.imageUrl)
-    };
+      setPreviewUrl(response.data.imageUrl);
+    }
+    catch(err) {console.log(err)}
+    }
 
-    fetchProduct();
-  }, []);
+  useEffect(() => {fetchProduct()}, []);
 
   const handleEditProduct = async () => {
     try {

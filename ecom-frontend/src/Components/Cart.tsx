@@ -1,13 +1,26 @@
 import { useEffect, useState } from "react";
-import { deleteFromCart, getCart } from "../api/ProductsService";
-import { ActionIcon, Button, Center, Container, Divider, Flex, Group, Image, Loader, Stack, Text, Title } from "@mantine/core";
-import { FaDollarSign, FaShoppingCart } from "react-icons/fa";
+import { deleteFromCart, getCart } from "../Api/ProductsService";
+import { ActionIcon, Button, Center, Divider, Flex, Group, Image, Loader, Stack, Text, Title } from "@mantine/core";
+import { FaShoppingCart } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 import { TiPlus, TiMinus } from "react-icons/ti";
 import { useCounter } from '@mantine/hooks';
+import type { Product } from "../Types/Product";
+
+interface CartItem {
+  id: number;
+  product: Product;
+  quantity: number;
+}
+
+interface Cart {
+  id: number;
+  items: CartItem[];
+  totalPrice: number;
+}
 
 const Cart = () => {
-  const [cart, setCart] = useState(null);
+  const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [value, { increment, decrement }] = useCounter(10, { min: 0 });
@@ -25,7 +38,6 @@ const Cart = () => {
     } 
     finally {setLoading(false)}
   };
-
   useEffect(() => {fetchCart()}, []);
 
   const handleItemDelete = async (id: number) => {
@@ -76,7 +88,7 @@ const Cart = () => {
         
         <Stack p={15} bdrs={20} bd="2px solid #e0e0e0" maw={600}>
 
-          {cart.items.map((item) => (
+          {cart.items.map(item => (
             <div key={item.id}>
               <Divider size="sm" />
 

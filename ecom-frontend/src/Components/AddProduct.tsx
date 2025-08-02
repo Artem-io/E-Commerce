@@ -1,7 +1,7 @@
 import { Button, Center, Checkbox, FileInput, Group, Image, NumberInput, Paper, Stack, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
-import { addProduct } from "../api/ProductsService";
+import { addProduct } from "../Api/ProductsService";
 import { notifications } from '@mantine/notifications';
 import { FaCheck, FaDollarSign } from "react-icons/fa";
 import { useState } from "react";

@@ -1,9 +1,14 @@
-import { Center, Stack, Title, Text } from "@mantine/core";
-import type React from "react";
+import { Stack, Title, Text } from "@mantine/core";
 import FeaturedCarousel from "./FeaturedCarousel";
 import ProductsGrid from "./ProductsGrid";
+import type { Product } from "../Types/Product";
 
-const HomePage = ({products, onProductDeleted}) => {
+type HomePageProps = {
+  products: Product[],
+  onProductDeleted: () => void
+}
+
+const HomePage = ({products, onProductDeleted}: HomePageProps) => {
   return (
     <Stack pb={40}>
     <FeaturedCarousel />
@@ -13,7 +18,7 @@ const HomePage = ({products, onProductDeleted}) => {
         <Text size='lg'>Discover our handpicked selection of top-rated items for you</Text>
     </Stack>
 
-      <ProductsGrid products={products} nb={5} onProductDeleted={onProductDeleted} />
+      <ProductsGrid products={products} productsNb={5} onProductDeleted={onProductDeleted} />
     </Stack>
   );
 };

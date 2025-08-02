@@ -3,12 +3,20 @@ import { jwtDecode } from "jwt-decode";
 import { FaCheck, FaShoppingCart } from "react-icons/fa";
 import { useAuth } from "./AuthContext";
 import { FaTrashCan } from "react-icons/fa6";
-import { addToCart, deleteProduct } from "../api/ProductsService";
+import { addToCart, deleteProduct } from "../Api/ProductsService";
 import { notifications } from "@mantine/notifications";
 import { MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import type { Product } from "../Types/Product";
 
-const ProductsGrid = ({ products, nb, onProductDeleted }: { products: any, nb: number, onProductDeleted: () => void }) => {
+type ProductsGridProps = {
+  products: Product[],
+  productsNb?: number,
+  onProductDeleted?: () => void
+}
+
+const ProductsGrid = ({ products, productsNb = products.length, onProductDeleted = () => {} }: ProductsGridProps) => 
+  {
   const { isAuth } = useAuth();
   const decoded = isAuth? jwtDecode(document.cookie) : { authorities: [] };
   const navigate = useNavigate();
@@ -41,7 +49,7 @@ const ProductsGrid = ({ products, nb, onProductDeleted }: { products: any, nb: n
   return (
       <Center>
     {products? (<SimpleGrid spacing={{base: 20, md: 40, lg: 50}} cols={{ base: 1, xs: 2, sm: 3, md: 4, lg: 5 }}>
-            {products.slice(-nb).map((product) => (
+            {products.slice(-productsNb).map((product) => (
               <Card p="xs" w={260} h={350} shadow="sm" radius="lg" withBorder key={product.id}>
 
                 <Card.Section>
@@ -66,7 +74,7 @@ const ProductsGrid = ({ products, nb, onProductDeleted }: { products: any, nb: n
                   onClick={()=>{handleDelete(product.id)}} radius='md'> Delete </Button>
                   </Group>
 
-                 : <Button onClick={() => {handleAddToCart(product.id)}} leftSection={<FaShoppingCart size={17} />} 
+                 : isAuth && <Button onClick={() => {handleAddToCart(product.id)}} leftSection={<FaShoppingCart size={17} />} 
                  radius='md' disabled={!product.isAvailable}> Add to Cart </Button>
                 }
 

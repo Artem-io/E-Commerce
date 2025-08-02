@@ -65,7 +65,7 @@ const Navbar = () => {
       </Group>
 
 
-    {/* <Burger opened={opened} onClick={toggle} aria-label="Toggle navigation" color="white" size="md" hiddenFrom="xs" /> 
+    <Burger opened={opened} onClick={toggle} aria-label="Toggle navigation" color="white" size="md" hiddenFrom="xs" /> 
 
     <Drawer size='xs' opened={opened} onClose={close} overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}>
       <Stack justify="space-between">
@@ -75,7 +75,7 @@ const Navbar = () => {
         <Anchor underline="never" >Contact</Anchor>
         <Button component="a" href="/auth" leftSection={<FiLogIn size={20} />}> Login </Button>
       </Stack>
-    </Drawer> */}
+    </Drawer>
 
     </Group>
   )

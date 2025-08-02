@@ -7,15 +7,13 @@ import {
   Group,
   Paper,
   PasswordInput,
-  Stack,
-  Text,
-  TextInput,
+  Stack, Text, TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { upperFirst, useToggle } from "@mantine/hooks";
-import { login, register } from "../api/ProductsService";
+import { login, register } from "../Api/ProductsService";
 import { FcGoogle } from "react-icons/fc";
-import { FaCheck, FaMicrosoft } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import { notifications } from "@mantine/notifications";
@@ -34,7 +32,7 @@ const Authentication = () => {
     validate: {
       username: (val) => (val === "" ? "Please enter username" : null),
       password: (val) => (val.length < 4 ? "Password should include at least 4 characters" : null),
-      terms: (val) => ((val === false && type === "register") ? "Please accept terms and conditions" : null)
+      terms: (val) => ((type === "register" && val === false) ? "Please accept terms and conditions" : null)
     },
   });
 
@@ -87,9 +85,6 @@ const Authentication = () => {
         <Group grow mb="md" mt="md">
           <Button leftSection={<FcGoogle size={20} />} variant="default" radius="lg">
             Google
-          </Button>
-          <Button leftSection={<FaMicrosoft size={20} />} variant="default" radius="lg">
-            Microsoft
           </Button>
         </Group>
 

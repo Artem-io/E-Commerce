@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import ProductsGrid from "./ProductsGrid";
-import { Group, NativeSelect, TextInput, Text, Button } from "@mantine/core";
-import { getAllProducts } from "../api/ProductsService";
+import { Group, NativeSelect, TextInput, Text } from "@mantine/core";
+import { getAllProducts } from "../Api/ProductsService";
+import type { Product } from "../Types/Product";
 
 const ProductsPage = () => 
   {
@@ -10,7 +11,7 @@ const ProductsPage = () =>
   const [size, setSize] = useState("15");
   const [sortBy, setSortBy] = useState('name');
 
-  const [products, setProducts] = useState(null);
+  const [products, setProducts] = useState<Product[] | null>(null);
     const fetchProducts = async () => {
       try {
         let sortField: string;
@@ -54,7 +55,7 @@ const ProductsPage = () =>
 
       </Group>
 
-      <ProductsGrid products={products} />
+      <ProductsGrid products={products || []} />
     </div>
   );
 };
