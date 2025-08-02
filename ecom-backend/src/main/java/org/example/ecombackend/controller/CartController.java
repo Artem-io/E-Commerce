@@ -14,9 +14,14 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
     private final CartService cartService;
 
-    @PostMapping("{productId}")
+    @PostMapping("{productId}") //Add a new Item or increment quantity of an existing item
     public ResponseEntity<CartDTO> addToCart(@PathVariable Long productId, @AuthenticationPrincipal User user) {
         return ResponseEntity.ok(cartService.addToCart(productId, user));
+    }
+
+    @PutMapping("{itemId}") //Decrement quantity of an existing item
+    public ResponseEntity<CartDTO> removeFromCart(@PathVariable Long itemId, @AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(cartService.removeFromCart(itemId, user));
     }
 
     @GetMapping
@@ -24,7 +29,7 @@ public class CartController {
         return ResponseEntity.ok(cartService.getCart(user));
     }
 
-    @DeleteMapping("{itemId}")
+    @DeleteMapping("{itemId}") //Fully delete cart item
     public ResponseEntity<?> deleteCartItem(@PathVariable Long itemId, @AuthenticationPrincipal User user) {
         cartService.deleteCartItem(itemId, user);
         return ResponseEntity.noContent().build();

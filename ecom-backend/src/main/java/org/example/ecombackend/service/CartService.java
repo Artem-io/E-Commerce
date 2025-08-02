@@ -47,10 +47,24 @@ public class CartService
         return cartDTOMapper.apply(cartRepo.save(cart));
     }
 
+    public CartDTO removeFromCart(Long itemId, User user) {
+        Cart cart = user.getCart();
+        if (cart == null) throw new RuntimeException("Cart not found");
+        CartItem cartItem = cartItemRepo.findByIdAndCart(itemId, cart.getId());
+        if (cartItem == null) throw new RuntimeException("Cart item not found");
+
+        if(cartItem.getQuantity() != 1) {
+            cartItem.setQuantity(cartItem.getQuantity() - 1);
+            cartItemRepo.save(cartItem);
+        }
+        return cartDTOMapper.apply(cart);
+    }
+
     public CartDTO getCart(User user) {
         return cartDTOMapper.apply(user.getCart());
     }
 
+    @Transactional
     public void deleteCartItem(Long itemId, User user)
     {
         CartItem cartItem = cartItemRepo.findById(itemId)

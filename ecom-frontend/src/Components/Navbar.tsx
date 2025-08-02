@@ -23,9 +23,8 @@ const Navbar = () => {
 
       <Group visibleFrom="xs" justify="space-between">
         <Anchor href="/" underline="never"> Home </Anchor>
-        <Anchor underline="never" href="/products" >Products</Anchor>
-        <Anchor underline="never" >About</Anchor>
-        <Anchor underline="never" >Contact</Anchor>
+        <Anchor underline="never" href="/products"> Products </Anchor>
+        {isAuth && <Anchor href="/orders" underline="never"> Orders </Anchor>}
         <FaShoppingCart onClick={()=>{navigate('/cart')}} color="white" size={25} />
         
         {isAuth? 

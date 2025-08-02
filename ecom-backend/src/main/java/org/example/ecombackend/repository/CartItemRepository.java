@@ -11,4 +11,7 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     CartItem findByCartAndProduct_Id(Long id, Long productId);
 
     boolean existsCartItemById(Long itemId);
+
+    @Query(value = "SELECT * FROM cart_items ci WHERE ci.id = ?1 AND ci.cart_id = ?2", nativeQuery = true)
+    CartItem findByIdAndCart(Long itemId, Long cartId);
 }

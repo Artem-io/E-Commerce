@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { deleteFromCart, getCart } from "../Api/ProductsService";
+import { addToCart, decrementItemQuantity, deleteFromCart, getCart, placeOrder } from "../Api/ProductsService";
 import { ActionIcon, Button, Center, Divider, Flex, Group, Image, Loader, Stack, Text, Title } from "@mantine/core";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 import { TiPlus, TiMinus } from "react-icons/ti";
-import { useCounter } from '@mantine/hooks';
 import type { Product } from "../Types/Product";
 
 interface CartItem {
@@ -23,7 +22,6 @@ const Cart = () => {
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [value, { increment, decrement }] = useCounter(10, { min: 0 });
 
   const fetchCart = async () => {
     try {
@@ -50,6 +48,30 @@ const Cart = () => {
       console.error(err);
     }
   };
+
+  const handleIncrement = async (productId: number) => {
+      try {
+        await addToCart(productId);
+        fetchCart();
+      }
+      catch(err) {console.log(err)}
+    }
+
+    const handleDecrement = async (itemId: number) => {
+      try {
+        await decrementItemQuantity(itemId);
+        fetchCart();
+      }
+      catch(err) {console.log(err)}
+    }
+
+    const handleCheckout = async (cartId: number) => {
+      try {
+        await placeOrder(cartId);
+        fetchCart();
+      }
+      catch(err) {console.log(err)}
+    }
 
   return (
     <>
@@ -84,14 +106,12 @@ const Cart = () => {
 
       
       {!loading && !error && cart !== null && cart.items?.length > 0 && (
-        <Group justify="space-between" px={50}>
+        <Group align="start" justify="space-around" px={50} pb={70}>
         
         <Stack p={15} bdrs={20} bd="2px solid #e0e0e0" maw={600}>
 
           {cart.items.map(item => (
             <div key={item.id}>
-              <Divider size="sm" />
-
               <Group justify="space-between" py="sm">
 
                 <Flex gap="xs" w={220} align="center">
@@ -101,15 +121,16 @@ const Cart = () => {
                 </Flex>
 
                 <Button.Group>
-              <Button variant="default" radius={12} onClick={decrement} size="xs" p={7}>
+              <Button onClick={()=>{handleDecrement(item.id)}}
+              disabled={item.quantity === 1} variant="default" radius={12} size="xs" p={7}>
                 <TiMinus />
               </Button>
 
               <Button.GroupSection variant="default" w={30} h={30}>
-                {value}
+                {item.quantity}
               </Button.GroupSection>
 
-              <Button variant="default" radius={12} onClick={increment} size="xs" p={7}>
+              <Button variant="default" radius={12} onClick={()=>{handleIncrement(item.product.id)}} size="xs" p={7}>
                 <TiPlus />
               </Button>
             </Button.Group>
@@ -124,17 +145,16 @@ const Cart = () => {
                   <FaTrashCan size={17} />
                 </ActionIcon>
               </Group>
+              <Divider size="sm" />
             </div>
           ))}
-
-          <Divider size="sm" />
 
         </Stack>
         <Stack justify="space-between" mih={300} miw={300} p="lg" bdrs="lg" bd="2px solid #e0e0e0">
         <Text>Order Summary</Text>
         <Divider />
         <Text>Total ${cart?.totalPrice}</Text>
-        <Button radius="md">Checkout</Button>
+        <Button radius="md" onClick={()=>{handleCheckout(cart?.id)}}> Checkout </Button>
       </Stack>
       
         </Group>

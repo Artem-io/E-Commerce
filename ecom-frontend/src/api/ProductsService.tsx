@@ -4,6 +4,7 @@ axios.defaults.withCredentials = true;
 const AUTH_URL = "http://localhost:8080/auth"
 const PRODUCTS_URL = "http://localhost:8080/products"
 const CART_URL = "http://localhost:8080/cart"
+const ORDERS_URL = "http://localhost:8080/orders"
 
 export async function login(credentials) {  
   await axios.post(`${AUTH_URL}/login`, credentials);
@@ -23,7 +24,7 @@ export async function getAllProducts(
   );
 }
 
-export async function getProductById(id) {
+export async function getProductById(id: number) {
   return await axios.get(`${PRODUCTS_URL}/${id}`);
 }
 
@@ -55,4 +56,12 @@ export async function addToCart(productId: number) {
 
 export async function deleteFromCart(itemId: number) {
   return await axios.delete(`${CART_URL}/${itemId}`, {withCredentials: true});
+}
+
+export async function decrementItemQuantity(itemId: number) {
+  return await axios.put(`${CART_URL}/${itemId}`, {withCredentials: true});
+}
+
+export async function placeOrder(cartId: number) {
+  return await axios.post(`${ORDERS_URL}/${cartId}`, {withCredentials: true});
 }
