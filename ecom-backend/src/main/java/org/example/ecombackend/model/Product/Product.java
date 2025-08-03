@@ -27,18 +27,18 @@ public class Product
 
     @NotBlank(message = "Name is required")
     @Size(max = 60, message = "Name length cannot be greater than 60")
-    String name;
+    private String name;
 
     @NotBlank(message = "Description is required")
     @Size(max = 100, message = "Description length cannot be greater than 100")
-    String description;
+    private String description;
 
     @NotNull(message = "Price is required")
     @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0")
-    BigDecimal price;
+    private BigDecimal price;
 
     @NotNull(message = "Availability status is required")
-    Boolean isAvailable;
+    private Boolean isAvailable;
 
     private String imageName;
 

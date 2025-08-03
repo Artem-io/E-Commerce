@@ -150,12 +150,13 @@ const Cart = () => {
           ))}
 
         </Stack>
+
         <Stack justify="space-between" mih={300} miw={300} p="lg" bdrs="lg" bd="2px solid #e0e0e0">
         <Text>Order Summary</Text>
         <Divider />
         <Text>Total ${cart?.totalPrice}</Text>
         <Button radius="md" onClick={()=>{handleCheckout(cart?.id)}}> Checkout </Button>
-      </Stack>
+        </Stack>
       
         </Group>
       )}

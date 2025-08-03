@@ -2,11 +2,13 @@ package org.example.ecombackend.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.ecombackend.model.Order.Order;
 import org.example.ecombackend.model.Product.ProductDTO;
+import org.example.ecombackend.model.User;
 import org.example.ecombackend.service.OrderService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,7 +24,7 @@ public class OrderController
     }
 
     @PostMapping("{cartId}")
-    public ResponseEntity<Order> placeOrder(@PathVariable Long cartId) {
-        return ResponseEntity.ok(orderService.placeOrder(cartId));
+    public ResponseEntity<Order> placeOrder(@PathVariable Long cartId, @AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(orderService.placeOrder(cartId, user));
     }
 }

@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class CartService
 {
     private final CartRepository cartRepo;
-    private final UserRepository userRepo;
     private final CartItemRepository cartItemRepo;
     private final ProductRepository productRepo;
     private final CartDTOMapper cartDTOMapper;
@@ -43,7 +42,6 @@ public class CartService
         CartItem cartItem = new CartItem(null, product, 1);
         cart.getItems().add(cartItem);
 
-        userRepo.save(user);
         return cartDTOMapper.apply(cartRepo.save(cart));
     }
 

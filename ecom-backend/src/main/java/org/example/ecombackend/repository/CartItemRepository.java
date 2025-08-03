@@ -3,6 +3,7 @@ import org.example.ecombackend.model.Cart.Cart;
 import org.example.ecombackend.model.CartItem.CartItem;
 import org.example.ecombackend.model.Product.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
@@ -14,4 +15,8 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
     @Query(value = "SELECT * FROM cart_items ci WHERE ci.id = ?1 AND ci.cart_id = ?2", nativeQuery = true)
     CartItem findByIdAndCart(Long itemId, Long cartId);
+
+    @Modifying
+    @Query(value = "DELETE FROM cart_items ci WHERE ci.cart_id = ?1", nativeQuery = true)
+    void deleteAllByCart(Long cartId);
 }
