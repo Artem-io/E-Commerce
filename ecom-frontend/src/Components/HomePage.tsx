@@ -4,7 +4,7 @@ import ProductsGrid from "./ProductsGrid";
 import type { Product } from "../Types/Product";
 
 type HomePageProps = {
-  products: Product[],
+  products: Product[] | null,
   onProductDeleted: () => void
 }
 

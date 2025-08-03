@@ -22,7 +22,7 @@ public class Order
 
     private LocalDateTime orderDate;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
     private List<OrderItem> items = new ArrayList<>();
 

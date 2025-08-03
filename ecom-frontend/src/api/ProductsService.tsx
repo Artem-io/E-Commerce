@@ -65,3 +65,7 @@ export async function decrementItemQuantity(itemId: number) {
 export async function placeOrder(cartId: number) {
   return await axios.post(`${ORDERS_URL}/${cartId}`, {withCredentials: true});
 }
+
+export async function getOrders() {
+  return await axios.get(ORDERS_URL, {withCredentials: true});
+}

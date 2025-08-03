@@ -11,6 +11,7 @@ import { jwtDecode } from "jwt-decode";
 import Cart from "./Components/Cart";
 import EditProduct from "./Components/EditProduct";
 import type { Product } from "./Types/Product";
+import Orders from "./Components/Orders";
 
 function App() {
   const [products, setProducts] = useState<Product[] | null>(null);
@@ -47,6 +48,7 @@ function App() {
 
           <Route path="/auth" element={isAuth? <Navigate to="/" /> : <Authentication />} />
           <Route path="/cart" element={isAuth? <Cart /> : <Navigate to="/auth" />} />
+          <Route path="/orders" element={isAuth? < Orders /> : <Navigate to="/auth" />} />
 
         </Routes>
       </BrowserRouter>

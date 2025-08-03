@@ -76,7 +76,7 @@ const Authentication = () => {
 
   return (
     <Center h={600}>
-      <Paper w={400} radius="md" p="lg" withBorder shadow="sm">
+      <Paper w={400} radius="lg" p="lg" withBorder shadow="sm">
         <Text size="lg" fw={500}>
           {" "}
           Welcome, {type} with{" "}

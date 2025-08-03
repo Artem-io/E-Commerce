@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +23,8 @@ public class OrderService
     private final UserRepository userRepo;
     private final CartItemRepository cartItemRepo;
 
-    public Page<Order> getAllOrders(Pageable pageable) {
-        return orderRepo.findAll(pageable);
+    public List<Order> getOrders(User user) {
+        return user.getOrders();
     }
 
     @Transactional

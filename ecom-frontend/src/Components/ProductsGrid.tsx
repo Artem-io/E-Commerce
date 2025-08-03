@@ -12,12 +12,12 @@ import { useDisclosure } from "@mantine/hooks";
 import { IoAlertCircle } from "react-icons/io5";
 
 type ProductsGridProps = {
-  products: Product[],
+  products: Product[] | null,
   productsNb?: number,
   onProductDeleted?: () => void
 }
 
-const ProductsGrid = ({ products, productsNb = products.length, onProductDeleted = () => {} }: ProductsGridProps) => 
+const ProductsGrid = ({ products, productsNb = products?.length, onProductDeleted = () => {} }: ProductsGridProps) => 
   {
   const { isAuth } = useAuth();
   const decoded = isAuth? jwtDecode(document.cookie) : { authorities: [] };
