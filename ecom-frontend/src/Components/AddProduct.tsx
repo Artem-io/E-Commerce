@@ -52,10 +52,7 @@ const AddProduct = ({ onProductAdded }: { onProductAdded: () => void }) =>
   };
 
   return (
-    <Center h={600}>
-        <Image src={previewUrl} fallbackSrc="https://trukszyn.pl/wp-content/uploads/woocommerce-placeholder-348x348.png"
-        w={200} h={200} fit="cover" />
-
+    <Group justify="center" gap="xl" h={600}>
       <Paper w={400} radius="lg" p="lg" withBorder shadow="sm">
         <Text size="lg" fw={500}> Add new Product </Text>
 
@@ -88,7 +85,10 @@ const AddProduct = ({ onProductAdded }: { onProductAdded: () => void }) =>
 
         </form>
       </Paper>
-    </Center>
+
+      <Image src={previewUrl} fallbackSrc="https://trukszyn.pl/wp-content/uploads/woocommerce-placeholder-348x348.png"
+        w={200} h={200} radius="lg" fit="cover" />
+    </Group>
   );
 };
 

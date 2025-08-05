@@ -108,13 +108,14 @@ const Cart = () => {
       {!loading && !error && cart !== null && cart.items?.length > 0 && (
         <Group align="start" justify="space-around" px={50} pb={70}>
         
-        <Stack p={15} bdrs={20} bd="2px solid #e0e0e0" maw={600}>
+        <Stack w={650} p={15} bdrs={20} bd="2px solid #e0e0e0" maw={700}>
 
           {cart.items.map(item => (
             <div key={item.id}>
+              
               <Group justify="space-between" py="sm">
 
-                <Flex gap="xs" w={220} align="center">
+                <Flex gap="xs" w={300} align="center">
                   <Image src={item.product.imageUrl} alt={item.product.name}
                     w={100} h={100} radius="lg" fit="contain" bd="2px solid #e0e0e0" />
                   <Text fw={500}>{item.product.name}</Text>
@@ -135,7 +136,7 @@ const Cart = () => {
               </Button>
             </Button.Group>
 
-                <Text fw={500}>${item.product.price}</Text>
+                <Text fw={600}>${item.product.price}</Text>
 
                 <ActionIcon
                   variant="transparent"
@@ -151,7 +152,7 @@ const Cart = () => {
 
         </Stack>
 
-        <Stack justify="space-between" mih={300} miw={300} p="lg" bdrs="lg" bd="2px solid #e0e0e0">
+        <Stack justify="space-between" mih={100} miw={300} p="lg" bdrs="lg" bd="2px solid #e0e0e0">
         <Text>Order Summary</Text>
         <Divider />
         <Text>Total ${cart?.totalPrice}</Text>

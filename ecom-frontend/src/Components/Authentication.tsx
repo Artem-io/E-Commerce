@@ -77,18 +77,10 @@ const Authentication = () => {
   return (
     <Center h={600}>
       <Paper w={400} radius="lg" p="lg" withBorder shadow="sm">
-        <Text size="lg" fw={500}>
+        <Text ta="center" mb="sm" size="xl" fw={600}>
           {" "}
-          Welcome, {type} with{" "}
+          Welcome, {type} with username
         </Text>
-
-        <Group grow mb="md" mt="md">
-          <Button leftSection={<FcGoogle size={20} />} variant="default" radius="lg">
-            Google
-          </Button>
-        </Group>
-
-        <Divider label="Or continue with username" labelPosition="center" my="lg" />
 
         <form onSubmit = {form.onSubmit(() => type === 'login'? attemptLogin() : attemptRegister())}>
           <Stack>

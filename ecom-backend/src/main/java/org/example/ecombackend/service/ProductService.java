@@ -30,6 +30,8 @@ public class ProductService
 
     @Transactional
     public ProductDTO addProduct(Product product, MultipartFile file) throws IOException {
+        if(file == null || file.isEmpty()) throw new IllegalArgumentException("Invalid file");
+
         s3Service.uploadObject(file.getOriginalFilename(), file.getBytes());
         product.setImageName(file.getOriginalFilename());
         return productDtoMapper.apply(productRepo.save(product));

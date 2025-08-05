@@ -47,9 +47,9 @@ const Navbar = () => {
           </Menu.Item>
 
           {decoded.authorities.find((role: string) => role === 'ROLE_ADMIN') && 
-          (<Menu.Item onClick={()=>navigate('/add-product')}>
+          <Menu.Item onClick={()=>navigate('/add-product')}>
             Add Product
-          </Menu.Item>)} 
+          </Menu.Item>} 
 
           <Menu.Item onClick={()=>{
             document.cookie='jwt=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -69,9 +69,8 @@ const Navbar = () => {
     <Drawer size='xs' opened={opened} onClose={close} overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}>
       <Stack justify="space-between">
         <Anchor href="/" underline="never"> Home </Anchor>
-        <Anchor underline="never" href="/products" >Products</Anchor>
-        <Anchor underline="never" >About</Anchor>
-        <Anchor underline="never" >Contact</Anchor>
+        <Anchor underline="never" href="/products"> Products </Anchor>
+        {isAuth && <Anchor underline="never" href="/orders"> Orders </Anchor>}
         <Button component="a" href="/auth" leftSection={<FiLogIn size={20} />}> Login </Button>
       </Stack>
     </Drawer>

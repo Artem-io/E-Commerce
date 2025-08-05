@@ -63,12 +63,19 @@ const Orders = () => {
                 <Badge variant="light"> {formatDate(order.orderDate)} </Badge>
               </Group>
 
-              <Divider mb="md" />
+
+              <Group justify="space-between" align="center">
+                  <Text size="md" fw={600}  flex={1}> Product </Text>
+                  <Text size="md" fw={600}  c="dimmed" ta="center" w={100}> Amount </Text>
+                  <Text size="md" fw={600} ta="right" w={100}> Price </Text>
+                </Group>
+
+                <Divider mb="md" />
 
               {order.items.map(item => (
                 <Group key={item.id} justify="space-between" py={10} align="center">
                   <Text size="sm" flex={1}> {item.name} </Text>
-                  <Text size="sm" c="dimmed" ta="center" w={100}> Amount: {item.quantity} </Text>
+                  <Text size="sm" c="dimmed" ta="center" w={100}> {item.quantity} </Text>
                   <Text size="sm" fw={500} ta="right" w={100}> {formatCurrency(item.price)} </Text>
                 </Group>
               ))}
