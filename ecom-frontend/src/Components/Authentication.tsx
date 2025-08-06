@@ -3,7 +3,6 @@ import {
   Button,
   Center,
   Checkbox,
-  Divider,
   Group,
   Paper,
   PasswordInput,
@@ -12,11 +11,12 @@ import {
 import { useForm } from "@mantine/form";
 import { upperFirst, useToggle } from "@mantine/hooks";
 import { login, register } from "../Api/ProductsService";
-import { FcGoogle } from "react-icons/fc";
 import { FaCheck } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import { notifications } from "@mantine/notifications";
+import type { AxiosError } from "axios";
+import { ImCross } from "react-icons/im";
 
 const Authentication = () => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const Authentication = () => {
     validate: {
       username: (val) => (val === "" ? "Please enter username" : null),
       password: (val) => (val.length < 4 ? "Password should include at least 4 characters" : null),
-      terms: (val) => ((type === "register" && val === false) ? "Please accept terms and conditions" : null)
+      terms: (val) => ((type === "register" && !val) ? "Please accept terms and conditions" : null)
     },
   });
 
@@ -45,13 +45,24 @@ const Authentication = () => {
         color: "#28a745",
         message: "You've logged in successfully",
         radius: 12,
-        w: 350,
         withBorder: true,
         icon: <FaCheck />,
         position: "bottom-center"
       });
     } 
-    catch (err) {console.error("Error during login:", err)}
+    catch (err) {
+      notifications.show({
+        color: "red",
+        title: "An error occurred",
+        message: err.response.data.error,
+        radius: 12,
+        withBorder: true,
+        icon: <ImCross />,
+        position: "bottom-center",
+        autoClose: 4000
+      });
+      // console.log(err.response.data.error);
+    }
   };
 
   const attemptRegister = async () => {
@@ -90,7 +101,6 @@ const Authentication = () => {
               label="Password"
               placeholder="Your password"
               {...form.getInputProps("password")}
-              error={form.errors.password && "Password should include at least 6 characters"}
               radius="md"
             />
 
@@ -99,6 +109,7 @@ const Authentication = () => {
                 label="I accept terms and conditions"
                 checked={form.values.terms}
               onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)}
+              error={form.errors.terms}
               />
             )}
           </Stack>

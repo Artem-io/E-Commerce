@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import ProductsGrid from "./ProductsGrid";
-import { Group, NativeSelect, TextInput, Text } from "@mantine/core";
+import { Group, TextInput, Text, Select } from "@mantine/core";
 import { getAllProducts } from "../Api/ProductsService";
 import type { Product } from "../Types/Product";
+import { IoSearch } from "react-icons/io5";
 
 const ProductsPage = () => 
   {
   const [searchParam, setSearchParam] = useState('');
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState("15");
-  const [sortBy, setSortBy] = useState('name');
+  const [size, setSize] = useState('15');
+  const [sortBy, setSortBy] = useState('Name');
 
   const [products, setProducts] = useState<Product[] | null>(null);
     const fetchProducts = async () => {
@@ -45,13 +46,16 @@ const ProductsPage = () =>
     <div className="p-8">
       <Group mb={20}>
 
-        <TextInput onChange={(e) => setSearchParam(e.currentTarget.value)} radius='md' placeholder="Search" />
+        <TextInput leftSection={<IoSearch size={20} />}
+         onChange={(e) => setSearchParam(e.currentTarget.value)} radius='md' placeholder="Search" />
 
-        <NativeSelect radius='md' leftSectionWidth={80} leftSection={<Text>Sort by:</Text>}
-         onChange={(e) => setSortBy(e.currentTarget.value)} data={["Name", "Price: Low to High", "Price: High to Low"]} />
+        <Select radius='md' leftSectionWidth={75} leftSection={<Text>Sort by:</Text>} w={230} allowDeselect={false}
+        comboboxProps={{ transitionProps: { transition: 'pop', duration: 200 }, radius: "md", shadow: "md" }}
+        value={sortBy} onChange={e => setSortBy(e)} data={["Name", "Price: Low to High", "Price: High to Low"]} />
 
-        <NativeSelect radius='md' defaultValue="15" data={["5", "10", "15", "25", "35", "50"]}
-         onChange={(e) => setSize(e.currentTarget.value)} rightSection="Products" rightSectionWidth={80} />
+        <Select radius='md' value={size} data={["5", "10", "15", "25", "35", "50"]} allowDeselect={false}
+        comboboxProps={{ transitionProps: { transition: 'pop', duration: 200 }, radius: "md", shadow: "md" }}
+         onChange={e => setSize(e)} rightSection="Products" w={110} rightSectionWidth={80} />
 
       </Group>
 

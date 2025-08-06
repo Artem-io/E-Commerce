@@ -20,10 +20,18 @@ const AddProduct = ({ onProductAdded }: { onProductAdded: () => void }) =>
       file: null,
     },
     validate: {
-      name: (val) => (val === "" ? "Please enter the name" : null),
-      description: (val) => (val === "" ? "Please enter the description" : null),
-      price: (val) => (val === "" ? "Please enter the price" : null),
-      file: (val) => (val === null ? "Please upload product image" : null)
+      name: val => {
+        if (val === "") return "Name can't be empty";
+        if (val.length > 60) return "Name can't be longer than 60 characters";
+        return null;
+      },
+      description: val => {
+        if (val === "") return "Description can't be empty";
+        if (val.length > 100) return "Description can't be longer than 100 characters";
+        return null;
+      },
+      price: val => (val === "" ? "Please enter the price" : null),
+      file: val => (val === null ? "Please upload product image" : null)
     },
   });
 
@@ -75,7 +83,7 @@ const AddProduct = ({ onProductAdded }: { onProductAdded: () => void }) =>
               onChange={handleFileChange} value={form.values.file} error={form.errors.file} />
 
             <Checkbox label="Available" checked={form.values.isAvailable}
-              onChange={(event) => form.setFieldValue('isAvailable', event.currentTarget.checked)} />
+              onChange={event => form.setFieldValue('isAvailable', event.currentTarget.checked)} />
           </Stack>
 
           <Group justify="space-evenly" mt="xl">

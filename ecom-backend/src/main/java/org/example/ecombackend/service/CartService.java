@@ -45,13 +45,13 @@ public class CartService
         return cartDTOMapper.apply(cartRepo.save(cart));
     }
 
-    public CartDTO removeFromCart(Long itemId, User user) {
+    public CartDTO reduceQuantity(Long itemId, User user) {
         Cart cart = user.getCart();
         if (cart == null) throw new RuntimeException("Cart not found");
         CartItem cartItem = cartItemRepo.findByIdAndCart(itemId, cart.getId());
         if (cartItem == null) throw new RuntimeException("Cart item not found");
 
-        if(cartItem.getQuantity() != 1) {
+        if(cartItem.getQuantity() > 1) {
             cartItem.setQuantity(cartItem.getQuantity() - 1);
             cartItemRepo.save(cartItem);
         }
@@ -69,7 +69,7 @@ public class CartService
                 .orElseThrow(() -> new RuntimeException("Cart item not found"));
 
         Cart cart = user.getCart();
-        if (cart == null || !cartItemRepo.existsCartItemById(itemId))
+        if (cart == null || !cart.getItems().contains(cartItem))
             throw new RuntimeException("Cart item does not belong to user's cart");
 
         cart.getItems().remove(cartItem);

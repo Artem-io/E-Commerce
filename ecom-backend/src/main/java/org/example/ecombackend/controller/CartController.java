@@ -20,8 +20,8 @@ public class CartController {
     }
 
     @PutMapping("{itemId}") //Decrement quantity of an existing item
-    public ResponseEntity<CartDTO> removeFromCart(@PathVariable Long itemId, @AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(cartService.removeFromCart(itemId, user));
+    public ResponseEntity<CartDTO> reduceQuantity(@PathVariable Long itemId, @AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(cartService.reduceQuantity(itemId, user));
     }
 
     @GetMapping

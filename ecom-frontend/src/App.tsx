@@ -34,7 +34,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Navbar />
+        <Navbar isAdmin={isAdmin} />
         <Routes>
 
           <Route path="/" element={<HomePage products={products} onProductDeleted={fetchProducts} />} />

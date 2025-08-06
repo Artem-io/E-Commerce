@@ -1,4 +1,4 @@
-import { Button, Center, Checkbox, FileInput, Group, Image, NumberInput, Paper, Stack, Text, TextInput } from "@mantine/core";
+import { Button, Center, Checkbox, FileInput, Group, Image, NumberInput, Paper, Stack, Text, TextInput, Tooltip } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProductById, updateProduct } from "../Api/ProductsService";
@@ -22,10 +22,17 @@ const EditProduct = ({ onProductUpdated }: { onProductUpdated: () => void }) =>
       file: null,
     },
     validate: {
-      name: (val) => (val === "" ? "Please enter the name" : null),
-      description: (val) => (val === "" ? "Please enter the description" : null),
-      price: (val) => (val === "" ? "Please enter the price" : null),
-
+      name: val => {
+        if (val === "") return "Name can't be empty";
+        if (val.length > 60) return "Name can't be longer than 60 characters";
+        return null;
+      },
+      description: val => {
+        if (val === "") return "Description can't be empty";
+        if (val.length > 100) return "Description can't be longer than 100 characters";
+        return null;
+      },
+      price: val => (val === "" ? "Please enter the price" : null)
     },
   });
 
@@ -86,9 +93,13 @@ const EditProduct = ({ onProductUpdated }: { onProductUpdated: () => void }) =>
               rightSectionPointerEvents="none"  hideControls
               {...form.getInputProps("price")} />
 
+            <Tooltip label="Leave this field empty to keep the image on the left" radius="md"
+            transitionProps={{ transition: 'pop', duration: 300 }}>
+
             <FileInput accept="image/png,image/jpeg,image/webp" radius="md" clearable 
-              label="Product image" placeholder="Upload files"
+              label="Product image" placeholder="Update existing image"
               onChange={handleFileChange} value={form.values.file} error={form.errors.file} />
+              </Tooltip>
 
             <Checkbox label="Available" checked={form.values.isAvailable}
               onChange={(event) => form.setFieldValue('isAvailable', event.currentTarget.checked)} />
