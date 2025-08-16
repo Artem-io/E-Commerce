@@ -1,5 +1,5 @@
 # E-Commerce
-A website built with Spring Boot 3.5 (Java 21), providing RESTful APIs for managing products, users, shopping carts, and authentication.
+A website built with Spring Boot 3.5 (Java 21) and React (TytpeScript), providing RESTful APIs for managing products, users, shopping carts, and authentication.
 
 ## Features
 - Users can register and log in (Spring Security + JWT)
@@ -9,7 +9,8 @@ A website built with Spring Boot 3.5 (Java 21), providing RESTful APIs for manag
 - Logged users can add products to cart, change quantity and then checkout.
 
 ## Stack
-- Framework: Spring Boot 3.5
+- Backend: Spring Boot 3.5
+- Frontend: React
 - Database: Mysql + Flyway
 - Image Storage: AWS S3
 - Testing: JUnit 5, Mockito

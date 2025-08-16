@@ -65,14 +65,15 @@ public class CartService
     @Transactional
     public void deleteCartItem(Long itemId, User user)
     {
-        CartItem cartItem = cartItemRepo.findById(itemId)
-                .orElseThrow(() -> new RuntimeException("Cart item not found"));
-
         Cart cart = user.getCart();
-        if (cart == null || !cart.getItems().contains(cartItem))
-            throw new RuntimeException("Cart item does not belong to user's cart");
+        if (cart == null)
+            throw new RuntimeException("User has no cart");
 
-        cart.getItems().remove(cartItem);
+        CartItem cartItem = cartItemRepo.findByIdAndCart(itemId, cart.getId());
+        if (cartItem == null)
+            throw new RuntimeException("Cart item not found or does not belong to user's cart");
+
+        cart.getItems().removeIf(item -> item.getId().equals(itemId));
         cartItemRepo.deleteById(itemId);
     }
 }

@@ -49,28 +49,29 @@ class CartServiceTests
         cart.getItems().add(cartItem);
         User user = new User(1L, "user", "password", Role.ROLE_USER, cart, null);
         
-        when(cartItemRepo.findById(itemId)).thenReturn(Optional.of(cartItem));
+        when(cartItemRepo.findByIdAndCart(itemId, cart.getId())).thenReturn(cartItem);
         
         // When
         cartService.deleteCartItem(itemId, user);
         
         // Then
-        verify(cartItemRepo).findById(itemId);
+        verify(cartItemRepo).findByIdAndCart(itemId, cart.getId());
         verify(cartItemRepo).deleteById(itemId);
-        assertFalse(cart.getItems().contains(cartItem));
+        assertFalse(cartItemRepo.existsById(itemId));
     }
 
     @Test
     void shouldThrowWhenItemBelongsToAnotherCart() {
         // Given
         Long itemId = 1L;
-        CartItem cartItem = new CartItem(itemId, mock(Product.class), 3);
+        Cart cart = new Cart(1L, new ArrayList<>());
+        User user = new User(1L, "user", "password", Role.ROLE_USER, cart, null);
 
-        when(cartItemRepo.findById(itemId)).thenReturn(Optional.of(cartItem));
+        when(cartItemRepo.findByIdAndCart(itemId, cart.getId())).thenReturn(null);
 
         // When & Then
-        assertThrows(RuntimeException.class, () -> cartService.deleteCartItem(itemId, mock(User.class)));
-        verify(cartItemRepo).findById(itemId);
+        assertThrows(RuntimeException.class, () -> cartService.deleteCartItem(itemId, user));
+        verify(cartItemRepo).findByIdAndCart(itemId, cart.getId());
         verifyNoMoreInteractions(cartItemRepo);
     }
 

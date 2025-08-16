@@ -1,17 +1,6 @@
 import { useEffect, useState } from "react";
 import { getOrders } from "../Api/ProductsService";
-import { 
-  Card, 
-  Group, 
-  Stack, 
-  Text, 
-  Title, 
-  Loader, 
-  Divider, 
-  Badge, 
-  Paper,
-  ScrollArea
-} from "@mantine/core";
+import {Card, Group, Stack, Text, Title, Loader, Divider, Badge} from "@mantine/core";
 import { FaShoppingCart } from "react-icons/fa";
 
 const Orders = () => {
@@ -29,7 +18,6 @@ const Orders = () => {
   }
   useEffect(() => {fetchOrders()}, []);
 
-  // Helper function to format date
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
@@ -38,7 +26,6 @@ const Orders = () => {
     });
   };
 
-  // Helper function to format currency
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
